@@ -464,7 +464,7 @@ const CampusMap = () => {
                 <h2 className="text-4xl font-bold text-center mb-12">Interactive Campus Map</h2>
                 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-700">
                     <iframe 
-                        src="https://www.iitg.ac.in/campusmap/" 
+                        src="https://drive.google.com/file/d/1Vc9lyjRcYdB07KLhwyOhaJhARSSmubLt/view?usp=sharing" 
                         className="w-full h-full"
                         style={{ border: 0 }} 
                         allowFullScreen="" 
