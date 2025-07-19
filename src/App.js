@@ -461,7 +461,18 @@ const CampusMap = () => {
     return (
         <section id="map" className="py-20 bg-gray-800 text-white">
             <div className="container mx-auto px-6">
-                <h2 className="text-4xl font-bold text-center mb-12">Interactive Campus Map</h2>
+                <div className="text-center mb-12">
+                    <h2 className="text-4xl font-bold">Interactive Campus Map</h2>
+                    <a 
+                        href="#" // <-- ACTION: REPLACE '#' WITH YOUR PDF DOWNLOAD LINK
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="mt-4 inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20"
+                    >
+                        <Icon path={ICONS.download} className="w-5 h-5" />
+                        Download Map (PDF)
+                    </a>
+                </div>
                 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-700">
                     <iframe 
                         src="https://drive.google.com/file/d/1Vc9lyjRcYdB07KLhwyOhaJhARSSmubLt/view?usp=sharing" 
