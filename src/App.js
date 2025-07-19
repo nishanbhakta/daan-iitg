@@ -34,7 +34,8 @@ const allSeniorsData = [
     { name: "Brijesh Singh Bharti", admissionYear: 2022, school: "JNV Azamgarh", branch: "Chemical Science and Technology" },
     { name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia", branch: "Computer Science & Engineering" },
     { name: "Kanak Kamini Maiti", admissionYear: 2023, school: "JNV Bankura", branch: "Engineering Physics" },
-    { name: "Vaibhav C D", admissionYear: 2024, school: "JNV Bangalore Urban", branch: "Mathematics and Computation" },
+    { name: "Vaibhav C D", admissionYear: 2024, school: "JNV 
+", branch: "Mathematics and Computation" },
     { name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Raebareli", branch: "Electronics & Communication Engineering" },
     { name: "Ashutosh Kumar", admissionYear: 2022, school: "JNV Gopalganj", branch: "Mechanical Engineering" },
     { name: "Yash Raj", admissionYear: 2021, school: "JNV Pune", branch: "Chemical Engineering" },
@@ -328,12 +329,14 @@ const ImportantNotices = () => {
       title: "Items to Bring",
       content: "A comprehensive list of essential items including documents, clothing, and other necessities will be shared soon.",
       rotation: "transform rotate-1"
+      link: "https://drive.google.com/file/d/1z3s7l4bjbGE1IKoXWTzkOcQGM8f6qdqg/view?usp=drivesdk"
     },
     {
       icon: ICONS.laptop,
       title: "Laptop Guide",
       content: "Confused about which laptop to buy? We've prepared a detailed guide based on different department needs.",
       rotation: "transform rotate-2"
+      link: "https://drive.google.com/file/d/1zH9uNXgiKLz6ayWHkarOhrkK7urjs25q/view?usp=drivesdk"
     },
     {
       icon: ICONS.scholarship,
