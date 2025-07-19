@@ -192,15 +192,15 @@ const getYearOfStudy = (admissionYear) => {
 const Header = ({ activeSection, onNavClick }) => {
   const navLinks = ["Home", "About", "Notices", "Links", "Seniors", "Map", "Gallery", "Contact"];
   return (
-    
-
-      
-
-         onNavClick('home')} className="text-2xl font-bold text-white">DAAN IITG
-        
-
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <nav className="container mx-auto px-6 py-4 flex justify-between items-center bg-gray-900/80 backdrop-blur-sm rounded-b-lg shadow-lg">
+        <a href="#home" onClick={() => onNavClick('home')} className="text-2xl font-bold text-white">DAAN IITG</a>
+        <div className="hidden md:flex items-center space-x-8">
           {navLinks.map(link => (
-             {
+            <a 
+              key={link}
+              href={`#${link.toLowerCase().replace(' ', '-')}`} 
+              onClick={(e) => {
                   e.preventDefault();
                   onNavClick(link.toLowerCase().replace(' ', '-'));
               }}
@@ -209,16 +209,13 @@ const Header = ({ activeSection, onNavClick }) => {
             >
               {link}
               {activeSection === link.toLowerCase().replace(' ', '-') && (
-                 
+                 <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-cyan-400 rounded-full"></span>
               )}
-            
+            </a>
           ))}
-        
-
-      
-
-    
-
+        </div>
+      </nav>
+    </header>
   );
 };
 
@@ -261,31 +258,21 @@ const Hero = ({ onNavClick }) => {
   }, []);
 
   return (
-    
-
-      
-
-      
-
-        
-
-          Welcome, Dakshana Scholars!
-        
-
-        
-
+    <section id="home" className="h-screen flex items-center justify-center bg-gray-900 text-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-gray-700/[0.2] [mask-image:linear-gradient(to_bottom,white_5%,transparent_90%)]"></div>
+      <div className="text-center z-10 p-4">
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-4">
+          Welcome, <span className="text-cyan-400">Dakshana Scholars!</span>
+        </h1>
+        <p className="text-2xl md:text-3xl font-light text-gray-300">
           Welcome {typedText}
-          |
-        
-
-
-         onNavClick('notices')} className="mt-12 inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20">
+          <span className="animate-ping">|</span>
+        </p>
+        <a href="#notices" onClick={() => onNavClick('notices')} className="mt-12 inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20">
           Get Started
-        
-      
-
-    
-
+        </a>
+      </div>
+    </section>
   );
 };
 
@@ -297,57 +284,37 @@ const About = () => {
   ];
 
   return (
-    
-
-      
-
-        
-Your Journey Begins
-
-        
-
-          
-
-            IIT Guwahati
-          
-
-          
-
-            
-
+    <section id="about" className="py-20 bg-gray-800 text-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-12">Your Journey Begins</h2>
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-1/3">
+            <img 
+              src="https://placehold.co/400x400/111827/7DD3FC?text=IITG" 
+              alt="IIT Guwahati" 
+              className="rounded-full shadow-2xl mx-auto border-4 border-cyan-400"
+            />
+          </div>
+          <div className="md:w-2/3 text-lg text-gray-300">
+            <p className="mb-4">
               Congratulations on making it to IIT Guwahati! A new and exciting chapter of your life is about to begin. The Dakshana Alumni Association Network (DAAN) is here to welcome you and support you every step of the way.
-            
-
-
-            
-
+            </p>
+            <p className="mb-6">
               We are a community of your seniors who have walked the same path. We're here to help you navigate academic life, campus culture, and everything in between. Never hesitate to reach out!
-            
-
-
-            
-What to Expect
-
-            
-
+            </p>
+            <h3 className="text-2xl font-semibold text-cyan-400 mb-4">What to Expect</h3>
+            <div className="flex flex-wrap gap-4">
               {resources.map(resource => (
-                
-
-                  
-                  {resource.name}
-                
-
+                <div key={resource.name} className="flex items-center bg-gray-700 rounded-full px-4 py-2">
+                  <Icon path={resource.icon} className="w-6 h-6 mr-2 text-cyan-400"/>
+                  <span>{resource.name}</span>
+                </div>
               ))}
-            
-
-          
-
-        
-
-      
-
-    
-
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -380,48 +347,27 @@ const ImportantNotices = () => {
   ];
 
   return (
-    
-
-      
-
-        
-Bulletin Board
-
-        
-
-            
-
+    <section id="notices" className="py-20 bg-gray-900 text-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-12">Bulletin Board</h2>
+        <div className="bg-yellow-100/10 p-8 rounded-lg shadow-inner border-4 border-dashed border-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {notices.map((notice, index) => (
-                
-
-                    
-
-                        
-                    
-
-                    
-
-                        
-                        
-{notice.title}
-
-                    
-
-                    
-{notice.content}
-
-
-                
-
+                <div key={index} className={`bg-yellow-50 text-gray-800 p-6 rounded-lg shadow-lg relative transition-transform duration-300 hover:scale-105 ${notice.rotation}`}>
+                    <div className="absolute -top-3 -right-3 text-red-500">
+                        <Icon path={ICONS.pushpin} className="w-8 h-8 transform rotate-45" />
+                    </div>
+                    <div className="flex items-center mb-3">
+                        <Icon path={notice.icon} className="w-7 h-7 text-cyan-600 mr-3" />
+                        <h3 className="text-xl font-bold text-gray-900">{notice.title}</h3>
+                    </div>
+                    <p className="text-gray-700">{notice.content}</p>
+                </div>
             ))}
-            
-
-        
-
-      
-
-    
-
+            </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -454,41 +400,24 @@ const QuickLinks = () => {
   ];
 
   return (
-    
-
-      
-
-        
-Quick Links
-
-        
-
+    <section id="links" className="py-20 bg-gray-800 text-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-12">Quick Links</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {links.map((link, index) => (
-            
-              
-
-                
-
-                  
-                
-
-              
-
-              
-{link.title}
-
-              
-{link.description}
-
-
-            
+            <a href={link.href} key={index} target="_blank" rel="noopener noreferrer" className="block bg-gray-900 p-6 rounded-lg shadow-lg hover:bg-gray-700/70 hover:-translate-y-2 transition-all duration-300">
+              <div className="flex justify-center items-center mb-4">
+                <div className="bg-gray-800 p-4 rounded-full">
+                  <Icon path={link.icon} className="w-8 h-8 text-cyan-400" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-center text-white mb-2">{link.title}</h3>
+              <p className="text-gray-400 text-center text-sm">{link.description}</p>
+            </a>
           ))}
-        
-
-      
-
-    
-
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -504,74 +433,50 @@ const Seniors = ({ onShowAllSeniors }) => {
     ).filter(Boolean); // filter(Boolean) removes any undefined if a name wasn't found
 
   return (
-    
-
-      
-
-        
-Meet Your Seniors
-
-        
-
+    <section id="seniors" className="py-20 bg-gray-900 text-white">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-12">Meet Your Seniors</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {seniors.map((senior, index) => (
-            
-
-              n[0]).join('')}`} alt={senior.name} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-400" />
-              
-{senior.name}
-
-              
-{senior.branch}
-
-
-              
-{getYearOfStudy(senior.admissionYear)}
-
-
-              
-{senior.school}
-
-
-               e.preventDefault()} className="text-gray-400 hover:text-cyan-400 transition-colors duration-300">
-                
-              
-            
-
+            <div key={index} className="bg-gray-800 rounded-lg p-6 text-center shadow-lg transform transition-transform duration-300 hover:scale-105">
+              <img src={`https://placehold.co/300x300/1F2937/38BDF8?text=${senior.name.split(' ').map(n=>n[0]).join('')}`} alt={senior.name} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-400" />
+              <h3 className="text-xl font-bold">{senior.name}</h3>
+              <p className="text-cyan-400 text-sm">{senior.branch}</p>
+              <p className="text-gray-400 text-sm">{getYearOfStudy(senior.admissionYear)}</p>
+              <p className="text-gray-500 mb-4 text-xs">{senior.school}</p>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-cyan-400 transition-colors duration-300">
+                <Icon path={ICONS.linkedin} className="w-8 h-8 mx-auto" />
+              </a>
+            </div>
           ))}
-        
-
-        
-
-            
+        </div>
+        <div className="text-center mt-12">
+            <button onClick={onShowAllSeniors} className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/20 text-lg">
                 More About Seniors
-            
-        
-
-      
-
-    
-
+            </button>
+        </div>
+      </div>
+    </section>
   );
 };
 
 const CampusMap = () => {
     return (
-        
-
-            
-
-                
-Interactive Campus Map
-
-                
-
-                    
-                
-
-            
-
-        
-
+        <section id="map" className="py-20 bg-gray-800 text-white">
+            <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-12">Interactive Campus Map</h2>
+                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-700">
+                    <iframe 
+                        src="https://www.iitg.ac.in/campusmap/" 
+                        className="w-full h-full"
+                        style={{ border: 0 }} 
+                        allowFullScreen="" 
+                        loading="lazy"
+                        title="IIT Guwahati Campus Map"
+                    ></iframe>
+                </div>
+            </div>
+        </section>
     );
 };
 
@@ -590,28 +495,22 @@ const Gallery = () => {
     ];
 
     return (
-        
-
-            
-
-                
-Campus Gallery
-
-                
-
+        <section id="gallery" className="py-20 bg-gray-900 text-white">
+            <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-bold text-center mb-12">Campus Gallery</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {images.map((image, index) => (
-                        
-
-                            {image.alt}
-                        
-
+                        <div key={index} className={`overflow-hidden rounded-lg shadow-lg group ${index < 2 ? 'col-span-2' : ''} ${index === 2 ? 'lg:row-span-2' : ''}`}>
+                            <img 
+                                src={image.src} 
+                                alt={image.alt} 
+                                className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                            />
+                        </div>
                     ))}
-                
-
-            
-
-        
-
+                </div>
+            </div>
+        </section>
     );
 };
 
@@ -625,63 +524,36 @@ const Contact = () => {
   ];
 
   return (
-    
-
-      
-
-        
-Have Questions?
-
-        
-
+    <section id="contact" className="py-20 bg-gray-800 text-white">
+      <div className="container mx-auto px-6 text-center">
+        <h2 className="text-4xl font-bold mb-4">Have Questions?</h2>
+        <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
           Your seniors at DAAN are here to help. Whether you have questions about academics, hostels, or just want to chat, feel free to reach out. We're excited to meet you!
-        
-
-
-        
-
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {contacts.map((contact, index) => (
-                
-
-                    
-{contact.name}
-
-                    
-{contact.year}
-
-
-                    
-
-                        
-                        {contact.phone}
-                    
-
-                
-
+                <div key={index} className="bg-gray-900 p-6 rounded-lg shadow-lg">
+                    <h3 className="text-2xl font-bold text-cyan-400">{contact.name}</h3>
+                    <p className="text-gray-400 mb-3">{contact.year}</p>
+                    <div className="flex items-center justify-center gap-2 text-lg">
+                        <Icon path={ICONS.phone} className="w-5 h-5 text-gray-400" />
+                        <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="hover:text-cyan-300">{contact.phone}</a>
+                    </div>
+                </div>
             ))}
-        
-
-      
-
-    
-
+        </div>
+      </div>
+    </section>
   );
 };
 
 const Footer = () => {
   return (
-    
-
-      
-
-        
-© {new Date().getFullYear()} DAAN IIT Guwahati. All Rights Reserved.
-
-
-      
-
-    
-
+    <footer className="bg-gray-900 text-gray-400 py-6">
+      <div className="container mx-auto px-6 text-center">
+        <p>&copy; {new Date().getFullYear()} DAAN IIT Guwahati. All Rights Reserved.</p>
+      </div>
+    </footer>
   );
 };
 
@@ -693,43 +565,41 @@ const AllSeniorsPage = ({ onBack }) => {
     })).filter(group => group.students.length > 0);
 
     return (
-        
-
-            
-
-                
-                    
+        <div className="bg-gray-900 text-white min-h-screen">
+            <div className="container mx-auto px-6 py-20">
+                <button onClick={onBack} className="flex items-center gap-2 mb-8 text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <Icon path={ICONS.arrowLeft} />
                     Back to Main Page
-                
-                
-All Seniors
-
+                </button>
+                <h1 className="text-5xl font-bold text-center mb-12">All Seniors</h1>
                 
                 {seniorsByBatch.map(({ year, students }) => (
-                    
-
-                        
-Batch of {year} ({getYearOfStudy(year)})
-
-                        
-
-                            
+                    <div key={year} id={`batch-${year}`} className="mb-16">
+                        <h2 className="text-4xl font-bold text-cyan-400 mb-8 border-b-2 border-cyan-400/30 pb-2">Batch of {year} ({getYearOfStudy(year)})</h2>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left table-auto">
+                                <thead className="bg-gray-800">
+                                    <tr>
+                                        <th className="p-4">Name</th>
+                                        <th className="p-4">Branch</th>
+                                        <th className="p-4">School</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-gray-800/50">
                                     {students.map((student, index) => (
-                                        
+                                        <tr key={index} className="border-b border-gray-700 hover:bg-gray-700/50">
+                                            <td className="p-4 font-medium">{student.name}</td>
+                                            <td className="p-4">{student.branch}</td>
+                                            <td className="p-4">{student.school}</td>
+                                        </tr>
                                     ))}
-                                
-Name	Branch	School
-{student.name}	{student.branch}	{student.school}
-
-                        
-
-                    
-
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 ))}
-            
-
-        
-
+            </div>
+        </div>
     );
 };
 
@@ -788,39 +658,45 @@ export default function App() {
   }, [page]);
   
   if (page === 'allSeniors') {
-      return  setPage('main')} />;
+      return <AllSeniorsPage onBack={() => setPage('main')} />;
   }
 
   return (
-    
-
-      
-      
-
-      
-
-        
-
-        
-
-        
-
-        
-
-        
- setPage('allSeniors')} />
-
-        
-
-        
-
-        
-
-      
-
-      
-
-    
-
+    <div className="bg-gray-900 font-sans leading-normal tracking-tight">
+      <style>{`
+        html { scroll-behavior: smooth; }
+        .bg-grid-gray-700\\[\\/0\\.2\\] {
+          background-image: linear-gradient(to right, rgba(55, 65, 81, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(55, 65, 81, 0.2) 1px, transparent 1px);
+          background-size: 3rem 3rem;
+        }
+        .animate-ping {
+            display: inline-block;
+            vertical-align: middle;
+            width: 2px;
+            height: 1.5em;
+            background-color: #67e8f9; /* cyan-300 */
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: #67e8f9; }
+        }
+        .aspect-w-16 { position: relative; padding-bottom: 56.25%; }
+        .aspect-h-9 { /* This class is used with aspect-w-16 */ }
+        .aspect-w-16 > * { position: absolute; height: 100%; width: 100%; top: 0; right: 0; bottom: 0; left: 0; }
+      `}</style>
+      <Header activeSection={activeSection} onNavClick={handleNavClick} />
+      <main>
+        <div id="home" ref={sectionRefs.home}><Hero onNavClick={handleNavClick} /></div>
+        <div id="about" ref={sectionRefs.about}><About /></div>
+        <div id="notices" ref={sectionRefs.notices}><ImportantNotices /></div>
+        <div id="links" ref={sectionRefs.links}><QuickLinks /></div>
+        <div id="seniors" ref={sectionRefs.seniors}><Seniors onShowAllSeniors={() => setPage('allSeniors')} /></div>
+        <div id="map" ref={sectionRefs.map}><CampusMap /></div>
+        <div id="gallery" ref={sectionRefs.gallery}><Gallery /></div>
+        <div id="contact" ref={sectionRefs.contact}><Contact /></div>
+      </main>
+      <Footer />
+    </div>
   );
 }
