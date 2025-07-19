@@ -30,14 +30,11 @@ const ICONS = {
 
 // --- Data ---
 const allSeniorsData = [
-    { name: "Harshit Chachariya", admissionYear: 2022, school: "JNV Nagaur", branch: "Electronics & Communication Engineering" },
-    { name: "Siba Sankar", admissionYear: 2023, school: "JNV Cuttack", branch: "Civil Engineering" },
-    { name: "Adarsh Kumar", admissionYear: 2023, school: "JNV Siwan", branch: "Civil Engineering" },
-    { name: "Brijesh Singh Bharti", admissionYear: 2022, school: "JNV Azamgarh", branch: "Computer Science & Engineering" },
-    { name: "Ishita Brice", admissionYear: 2022, school: "JNV Ranchi", branch: "Computer Science & Engineering" },
-    { name: "Nishan Bhakta", admissionYear: 2023, school: "JNV Cooch Behar", branch: "Mechanical Engineering" },
-    { name: "Kanak Kamini Maiti", admissionYear: 2023, school: "JNV Bankura", branch: "Chemical Engineering" },
-    { name: "Vaibhav C D", admissionYear: 2024, school: "JNV Bangalore Urban", branch: "Computer Science & Engineering" },
+    { name: "Adarsh Kumar", admissionYear: 2023, school: "JNV W. Champaran", branch: "Electronics & Communication Engineering" },
+    { name: "Brijesh Singh Bharti", admissionYear: 2022, school: "JNV Azamgarh", branch: "Chemical Science and Technology" },
+    { name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia", branch: "Computer Science & Engineering" },
+    { name: "Kanak Kamini Maiti", admissionYear: 2023, school: "JNV Bankura", branch: "Engineering Physics" },
+    { name: "Vaibhav C D", admissionYear: 2024, school: "JNV Bangalore Urban", branch: "Mathematics and Computation" },
     { name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Raebareli", branch: "Electronics & Communication Engineering" },
     { name: "Ashutosh Kumar", admissionYear: 2022, school: "JNV Gopalganj", branch: "Mechanical Engineering" },
     { name: "Yash Raj", admissionYear: 2021, school: "JNV Pune", branch: "Chemical Engineering" },
