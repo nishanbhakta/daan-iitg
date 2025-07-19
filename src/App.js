@@ -321,28 +321,32 @@ const ImportantNotices = () => {
     {
       icon: ICONS.calendar,
       title: "Joining Date",
-      content: "The official joining date for all first-year students is 20th July. Please plan your travel accordingly.",
-      rotation: "transform -rotate-2"
+      content:
+        "The official joining date for all first-year students is 20th July. Please plan your travel accordingly.",
+      rotation: "transform -rotate-2",
     },
     {
       icon: ICONS.suitcase,
       title: "Items to Bring",
-      content: "A comprehensive list of essential items including documents, clothing, and other necessities will be shared soon.",
-      rotation: "transform rotate-1"
-      link: "https://drive.google.com/file/d/1z3s7l4bjbGE1IKoXWTzkOcQGM8f6qdqg/view?usp=drivesdk"
+      content:
+        "A comprehensive list of essential items including documents, clothing, and other necessities will be shared soon.",
+      rotation: "transform rotate-1",
+      link: "https://drive.google.com/file/d/1z3s7l4bjbGE1IKoXWTzkOcQGM8f6qdqg/view?usp=drivesdk",
     },
     {
       icon: ICONS.laptop,
       title: "Laptop Guide",
-      content: "Confused about which laptop to buy? We've prepared a detailed guide based on different department needs.",
-      rotation: "transform rotate-2"
-      link: "https://drive.google.com/file/d/1zH9uNXgiKLz6ayWHkarOhrkK7urjs25q/view?usp=drivesdk"
+      content:
+        "Confused about which laptop to buy? We've prepared a detailed guide based on different department needs.",
+      rotation: "transform rotate-2",
+      link: "https://drive.google.com/file/d/1zH9uNXgiKLz6ayWHkarOhrkK7urjs25q/view?usp=drivesdk",
     },
     {
       icon: ICONS.scholarship,
       title: "Scholarship Guide",
-      content: "Information about various scholarships available at IITG and how to apply for them will be provided here.",
-      rotation: "transform -rotate-1"
+      content:
+        "Information about various scholarships available at IITG and how to apply for them will be provided here.",
+      rotation: "transform -rotate-1",
     },
   ];
 
@@ -351,20 +355,33 @@ const ImportantNotices = () => {
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-bold text-center mb-12">Bulletin Board</h2>
         <div className="bg-yellow-100/10 p-8 rounded-lg shadow-inner border-4 border-dashed border-gray-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {notices.map((notice, index) => (
-                <div key={index} className={`bg-yellow-50 text-gray-800 p-6 rounded-lg shadow-lg relative transition-transform duration-300 hover:scale-105 ${notice.rotation}`}>
-                    <div className="absolute -top-3 -right-3 text-red-500">
-                        <Icon path={ICONS.pushpin} className="w-8 h-8 transform rotate-45" />
-                    </div>
-                    <div className="flex items-center mb-3">
-                        <Icon path={notice.icon} className="w-7 h-7 text-cyan-600 mr-3" />
-                        <h3 className="text-xl font-bold text-gray-900">{notice.title}</h3>
-                    </div>
-                    <p className="text-gray-700">{notice.content}</p>
+              <div
+                key={index}
+                className={`bg-yellow-50 text-gray-800 p-6 rounded-lg shadow-lg relative transition-transform duration-300 hover:scale-105 ${notice.rotation}`}
+              >
+                <div className="absolute -top-3 -right-3 text-red-500">
+                  <Icon path={ICONS.pushpin} className="w-8 h-8 transform rotate-45" />
                 </div>
+                <div className="flex items-center mb-3">
+                  <Icon path={notice.icon} className="w-7 h-7 text-cyan-600 mr-3" />
+                  <h3 className="text-xl font-bold text-gray-900">{notice.title}</h3>
+                </div>
+                <p className="text-gray-700">{notice.content}</p>
+                {notice.link && (
+                  <a
+                    href={notice.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-sm text-blue-600 underline hover:text-blue-800"
+                  >
+                    View More
+                  </a>
+                )}
+              </div>
             ))}
-            </div>
+          </div>
         </div>
       </div>
     </section>
