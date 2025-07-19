@@ -479,16 +479,13 @@ const CampusMap = () => {
 
 const Gallery = () => {
     const images = [
-        { src: "https://drive.google.com/uc?export=view&id=1FSlTBYHaqreLg9RqnWnhRnf1Xoeo_yh7", alt: "IITG Campus View" },
-        { src: "https://drive.google.com/uc?export=view&id=1eO1v9oAzBG6r-QWt_lWAvo8E2ER_wU2w", alt: "IITG Academic Complex" },
-        { src: "https://drive.google.com/uc?export=view&id=1eHjygxfCCe4PHR7-zYyeHx0pxgNgs8Vf", alt: "IITG Library" },
-        { src: "https://drive.google.com/uc?export=view&id=16zq2GYYSzdLHq5s9XnP2hpR7tFclB72O", alt: "IITG Hostel Area" },
-        { src: "https://drive.google.com/uc?export=view&id=1E-fxxb66BRoP7_YvpCA1Y52kfm5YbgQk", alt: "IITG Sports Complex" },
-        { src: "https://drive.google.com/uc?export=view&id=11PdE5cZ7i7KwBc8Xp-eCmUBKn2np2pd1", alt: "IITG River View" },
-        { src: "https://drive.google.com/uc?export=view&id=1UEl8nbxVGfZkgkiIvILYgcD9UC3usASD", alt: "IITG Campus Entrance" },
-        { src: "https://drive.google.com/uc?export=view&id=17ip0S_EB-k2fujRD9T4YHQpVo40f1cU1", alt: "IITG Lecture Hall" },
-        { src: "https://drive.google.com/uc?export=view&id=1Oj52O3hwEhoxWZJGHgT0aSetmPQVU5MT", alt: "IITG Campus Festival" },
-        { src: "https://drive.google.com/uc?export=view&id=18fAEvNZxdG84BBWlpTudts2w0nIJ-hXy", alt: "IITG Campus Nature" },
+        { src: "https://i.postimg.cc/vm7kwrfJ/IMG-20250719-WA0038.jpg", alt: "IITG Library" },
+        { src: "https://i.postimg.cc/MTmStk9j/IMG-20250719-WA0039.jpg", alt: "IITG Academic Complex" },
+        { src: "https://i.postimg.cc/Hn8tdmFr/IMG-20250719-WA0037.jpg", alt: "IITG Lakes" },
+        { src: "https://i.postimg.cc/L8WL4wBf/IMG-20250719-WA0036.jpg", alt: "IITG Auditorium" },
+        { src: "https://i.postimg.cc/qRs3LRfX/IMG-20250719-WA0035.jpg", alt: "IITG Janmastami" },
+        { src: "hhttps://i.postimg.cc/yxN8ZY7N/IMG-20250719-WA0033.jpg", alt: "IITG Upper View" },
+        { src: "https://i.postimg.cc/0jH2dRN0/IMG-20250719-WA0030.jpg", alt: "IITG Holi" },
     ];
 
     return (
