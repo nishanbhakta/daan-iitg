@@ -507,7 +507,7 @@ Download Map (PDF)
 </div>
 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-700">
 <iframe
-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14325.717529452427!2d91.68367988880894!3d26.149950796850556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a5b1017338579%3A0x4b78747a02b15a63!2sIndian%20Institute%20of%20Technology%20Guwahati!5e0!3m2!1sen!2sin!4v1690000000000" // A more interactive map embed
+src="https://www.google.com/maps/place/IIT+Guwahati,+Guwahati,+Assam/@26.1967529,91.6223715,13z/data=!3m1!4b1!4m10!1m2!2m1!1siitg!3m6!1s0x375a5aea122132c3:0x44767bb468a831d1!8m2!3d26.2027435!4d91.7003706!15sCgRpaXRnkgEMc3VibG9jYWxpdHkxqgEsEAEyHhABIhoHhm4_jPCeCAw6ItL3NWcemHVTZmbmf7gaaTIIEAIiBGlpdGfgAQA!16s%2Fg%2F1jky__kct?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" // A more interactive map embed
 className="w-full h-full"
 style={{ border: 0 }}
 allowFullScreen=""
