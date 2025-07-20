@@ -63,11 +63,11 @@ const allSeniorsData = [
 { name: "Anand Keshav", admissionYear: 2021, school: "JNV Giridih Jharkhand", branch: "Computer Science & Engineering", phone: "+91 7061655987" },
 { name: "Shivam Kumar", admissionYear: 2022, school: "JNV Lucknow Uttar Pradesh", branch: "Mathematics & Computing Engineering", phone: "+91 7906664809" },
 { name: "Kethavath Durga Prasad", admissionYear: 2022, school: "JNV Kottayam Kerala", branch: "Computer Science & Engineering", phone: "+91 9703284221" },
-{ name: "Brijesh Singh Bharti", admissionYear: 2022, school: "JNV Kottayam Kerala", branch: "Chemical Science & Technology", phone: "+91 9569061042" },
+{ name: "Brijesh Singh Bharti", admissionYear: 2022, school: "JNV Kottayam Kerala", branch: "Chemical Science & Technology", phone: "+91 9569061042",image:"https://i.postimg.cc/CKNb3BqY/Brijesh.png" },
 { name: "Sandesh Jogdande", admissionYear: 2022, school: "JNV Bundi Rajasthan", branch: "Electronics & Communication Engineering", phone: "+91 9527714562" },
 { name: "Alku Mandal", admissionYear: 2022, school: "JNV Bundi Rajasthan", branch: "Computer Science & Engineering", phone: "+91 9263164582" },
 { name: "Rohit Keshri", admissionYear: 2022, school: "JNV Kottayam Kerala", branch: "Mathematics & Computing Engineering", phone: "+91 8857092573" },
-{ name: "Ashutosh Kumar (Ex CR)", admissionYear: 2022, school: "JNV Ballia Uttar Pradesh", branch: "Electrical & Electronics Engineering", phone: "+91 9794301288" },
+{ name: "Ashutosh Kumar (Ex CR)", admissionYear: 2022, school: "JNV Ballia Uttar Pradesh", branch: "Electrical & Electronics Engineering", phone: "+91 9794301288",image: "https://i.postimg.cc/jdbPS44K/Ashutosh-Kumar.png" },
 { name: "Bhairu Singh Kanawat", admissionYear: 2022, school: "JNV Bhilwara Rajasthan", branch: "Electronics & Communication Engineering", phone: "+91 9672401165" },
 { name: "Saurabh Kumbhare", admissionYear: 2022, school: "JNV Chandrapur Maharashtra ", branch: "Electrical & Electronics Engineering", phone: "+91 8767589268" },
 { name: "Harshit Chachriya", admissionYear: 2022, school: "JNV Khandwa Madhya Pradesh", branch: "Computer Science & Engineering", phone: "+91 9302057401" },
@@ -150,14 +150,14 @@ const allSeniorsData = [
 { name: "Ajaya", admissionYear: 2024, school: "JNV Koppal Karnataka", branch: "Mechanical Engineering", phone: "+91 9900759118" },
 { name: "Dipanjan Ghosh", admissionYear: 2024, school: "JNV Burdwan West Bengal", branch: "Chemical Engineering ", phone: "+91 9800687453" },
 { name: "Kanak Kamini Maiti", admissionYear: 2024, school: "JNV Prayagraj Uttar Pradesh", branch: "Engineering Physics", phone: "+91 8509668934" },
-{ name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia West Bengal", branch: "Computer Science & Engineering", phone: "+91 9732989298" },
+{ name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia West Bengal", branch: "Computer Science & Engineering", phone: "+91 9732989298",image: "https://i.postimg.cc/7hXW1MZH/IMG-20250523-130831-887.webp" },
 { name: "Tushar Raj Prasad", admissionYear: 2024, school: "JNV Sitamarhi Bihar", branch: "Civil Engineering", phone: "+91 9199793074" },
 { name: "Sakshi Mehra", admissionYear: 2024, school: "JNV Bundi Rajasthan", branch: "Chemical Engineering ", phone: "+91 9424667983" },
 { name: "Vasava Bhargav", admissionYear: 2023, school: "JNV Bharuch Gujarat", branch: "Chemical Engineering", phone: "+91 6352483669" },
 { name: "Sapna Thakur", admissionYear: 2024, school: "JNV Durg Chhattisgarh", branch: "Civil Engineering", phone: "+91 7415989909" },
 { name: "Prashant Bisht", admissionYear: 2024, school: "JNV Almora Uttarakhand", branch: "Engineering Physics", phone: "+91 7456891622" },
-{ name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Jashpur Chhattisgarh", branch: "Electrical & Electronics Engineering ", phone: "+91 6266 110 461" },
-{ name: "Vaibhav C D", admissionYear: 2024, school: "JNV Mysuru Karnataka", branch: "Mathematics & Computing Engineering", phone: "+91 9986329765" },
+{ name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Jashpur Chhattisgarh", branch: "Electrical & Electronics Engineering ", phone: "+91 6266 110 461",image: "https://i.postimg.cc/ryW5TPWQ/Ayush-Kumar-Gupta.png" },
+{ name: "Vaibhav C D", admissionYear: 2024, school: "JNV Mysuru Karnataka", branch: "Mathematics & Computing Engineering", phone: "+91 9986329765",image: "https://i.postimg.cc/65fR24MZ/Vaibhav-C-D.png" },
 { name: "Manish Sharma", admissionYear: 2024, school: "JNV Siwan Bihar", branch: "Civil Engineering", phone: "+91 9931676737" },
 
 ];
@@ -468,7 +468,8 @@ return (
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
 {seniors.map((senior, index) => (
 <div key={index} className="bg-gray-800 rounded-lg p-6 text-center shadow-lg transform transition-transform duration-300 hover:scale-105">
-<img src={`https://placehold.co/300x300/1F2937/38BDF8?text=${senior.name.split(' ').map(n=>n[0]).join('')}`} alt={senior.name} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-400" />
+<img src={senior.image} alt={senior.name} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-cyan-400 object-cover" />
+
 <h3 className="text-xl font-bold">{senior.name}</h3>
 <p className="text-cyan-400 text-sm">{senior.branch}</p>
 <p className="text-gray-400 text-sm">{getYearOfStudy(senior.admissionYear)}</p>
@@ -507,7 +508,7 @@ Download Map (PDF)
 </div>
 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl border-4 border-gray-700">
 <iframe
-src="https://www.google.com/maps/place/IIT+Guwahati,+Guwahati,+Assam/@26.1967529,91.6223715,13z/data=!3m1!4b1!4m10!1m2!2m1!1siitg!3m6!1s0x375a5aea122132c3:0x44767bb468a831d1!8m2!3d26.2027435!4d91.7003706!15sCgRpaXRnkgEMc3VibG9jYWxpdHkxqgEsEAEyHhABIhoHhm4_jPCeCAw6ItL3NWcemHVTZmbmf7gaaTIIEAIiBGlpdGfgAQA!16s%2Fg%2F1jky__kct?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" // A more interactive map embed
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3576.1030070297923!2d91.69779531503427!3d26.202743549625048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a5aea122132c3%3A0x44767bb468a831d1!2sIIT%20Guwahati!5e0!3m2!1sen!2sin!4v1721461358423!5m2!1sen!2sin" // A more interactive map embed
 className="w-full h-full"
 style={{ border: 0 }}
 allowFullScreen=""
