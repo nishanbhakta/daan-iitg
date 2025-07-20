@@ -150,7 +150,7 @@ const allSeniorsData = [
 { name: "Ajaya", admissionYear: 2024, school: "JNV Koppal Karnataka", branch: "Mechanical Engineering", phone: "+91 9900759118" },
 { name: "Dipanjan Ghosh", admissionYear: 2024, school: "JNV Burdwan West Bengal", branch: "Chemical Engineering ", phone: "+91 9800687453" },
 { name: "Kanak Kamini Maiti", admissionYear: 2024, school: "JNV Prayagraj Uttar Pradesh", branch: "Engineering Physics", phone: "+91 8509668934" },
-{ name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia West Bengal", branch: "Computer Science & Engineering", phone: "+91 9732989298",image: "https://i.postimg.cc/Z5YyDPKk/IMG-20250720-153404.jpg" },
+{ name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia West Bengal", branch: "Computer Science & Engineering", phone: "+91 7585842982",image: "https://i.postimg.cc/Z5YyDPKk/IMG-20250720-153404.jpg" },
 { name: "Tushar Raj Prasad", admissionYear: 2024, school: "JNV Sitamarhi Bihar", branch: "Civil Engineering", phone: "+91 9199793074" },
 { name: "Sakshi Mehra", admissionYear: 2024, school: "JNV Bundi Rajasthan", branch: "Chemical Engineering ", phone: "+91 9424667983" },
 { name: "Vasava Bhargav", admissionYear: 2023, school: "JNV Bharuch Gujarat", branch: "Chemical Engineering", phone: "+91 6352483669" },
