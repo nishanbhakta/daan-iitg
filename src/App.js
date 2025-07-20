@@ -209,8 +209,9 @@ const galleryData = {
 const getYearOfStudy = (admissionYear) => {
   const today = new Date();
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const currentMonth = today.getMonth(); // 0-11 (Jan-Dec)
 
+  // Academic year starts in July (month index 6)
   const academicYear = currentMonth < 6 ? currentYear - 1 : currentYear;
   const yearOfStudy = academicYear - admissionYear + 1;
 
@@ -225,7 +226,7 @@ const getYearOfStudy = (admissionYear) => {
 // --- Page Components ---
 
 const Header = ({ activeSection, onNavClick }) => {
-  const navLinks = ["Home", "About", "Notices", "Links", "Seniors", "Map", "Gallery", "Achievers", "Contact"];
+  const navLinks = ["Home", "About", "Notices", "Links", "Seniors", "Map", "Gallery", "Achievers", "Contact", "Feedback"];
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center bg-gray-900/80 backdrop-blur-sm rounded-b-lg shadow-lg">
@@ -592,26 +593,30 @@ const Gallery = ({ onCategoryClick }) => {
 };
 
 const GalleryPage = ({ category, onBack }) => {
-  const { images } = galleryData[category];
+  const { images } = galleryData[category] || { images: [] };
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       <div className="container mx-auto px-6 py-10 md:py-20">
         <button onClick={onBack} className="flex items-center gap-2 mb-8 text-cyan-400 hover:text-cyan-300 transition-colors">
           <Icon path={ICONS.arrowLeft} />
-          Back to Gallery
+          Back to Main Page
         </button>
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-12">{category}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {images.map((image, index) => (
-            <div key={index} className="overflow-hidden rounded-lg shadow-lg group">
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-              />
+        {images.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {images.map((image, index) => (
+                <div key={index} className="overflow-hidden rounded-lg shadow-lg group">
+                <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-110"
+                />
+                </div>
+            ))}
             </div>
-          ))}
-        </div>
+        ) : (
+            <p className="text-center text-gray-400">More photos coming soon!</p>
+        )}
       </div>
     </div>
   );
@@ -689,7 +694,7 @@ const Contact = () => {
     ).filter(Boolean), []);
 
   return (
-    <section id="contact" className="py-20 bg-gray-800 text-white">
+    <section id="contact" className="py-20 bg-gray-900 text-white">
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold mb-4">Have Questions?</h2>
         <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
@@ -697,7 +702,7 @@ const Contact = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {contacts.map((contact, index) => (
-            <div key={index} className="bg-gray-900 p-6 rounded-lg shadow-lg">
+            <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold text-cyan-400">{contact.name}</h3>
               <p className="text-gray-400 mb-3">{getYearOfStudy(contact.admissionYear)}</p>
               <div className="flex items-center justify-center gap-2 text-lg">
@@ -711,6 +716,27 @@ const Contact = () => {
     </section>
   );
 };
+
+const Feedback = () => {
+    return (
+      <section id="feedback" className="py-20 bg-gray-800 text-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold mb-4">We Value Your Feedback</h2>
+          <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+            Help us improve! Share your thoughts, suggestions, or any issues you've faced with this website.
+          </p>
+          <a
+            href="https://forms.gle/Rn5az3L5cAPwJg4W7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-green-500/20 text-lg"
+          >
+            Give Feedback
+          </a>
+        </div>
+      </section>
+    );
+  };
 
 const Footer = () => {
   return (
@@ -815,6 +841,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [page, setPage] = useState('main'); // 'main', 'allSeniors', or 'gallery'
   const [galleryCategory, setGalleryCategory] = useState(null);
+  const scrollPositionRef = useRef(0);
 
   const sectionRefs = {
     home: useRef(null),
@@ -826,12 +853,14 @@ export default function App() {
     gallery: useRef(null),
     achievers: useRef(null),
     contact: useRef(null),
+    feedback: useRef(null),
   };
 
   const handleNavClick = (id) => {
     if (page !== 'main') {
       setPage('main');
       setGalleryCategory(null);
+      // Use a timeout to ensure the main page is rendered before scrolling
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
@@ -840,12 +869,38 @@ export default function App() {
     }
   };
   
-  const handleGalleryCategoryClick = (category) => {
-      setGalleryCategory(category);
-      setPage('gallery');
+  const handleShowAllSeniors = () => {
+    // Save current scroll position before changing the page
+    scrollPositionRef.current = window.scrollY;
+    setPage('allSeniors');
   };
 
+  const handleGalleryCategoryClick = (category) => {
+    // Save current scroll position before changing the page
+    scrollPositionRef.current = window.scrollY;
+    setGalleryCategory(category);
+    setPage('gallery');
+  };
+
+  const handleBackToMain = () => {
+      setPage('main');
+      setGalleryCategory(null);
+  }
+
   useEffect(() => {
+    // When returning to the main page, restore the scroll position.
+    if (page === 'main') {
+      // Use a timeout to ensure the DOM is updated before scrolling
+      setTimeout(() => window.scrollTo({ top: scrollPositionRef.current, behavior: 'auto' }), 0);
+    } else {
+      // When navigating to a sub-page, scroll to the top of the new page.
+      window.scrollTo(0, 0);
+    }
+  }, [page]);
+
+
+  useEffect(() => {
+    // This effect handles the intersection observer for nav highlighting
     if (page !== 'main') return;
 
     const observer = new IntersectionObserver(
@@ -856,6 +911,7 @@ export default function App() {
           }
         });
       },
+      // Adjust rootMargin to ensure the section is highlighted when it's more centered in the viewport
       { rootMargin: '-40% 0px -60% 0px' }
     );
 
@@ -873,11 +929,11 @@ export default function App() {
   }, [page]);
 
   if (page === 'allSeniors') {
-    return <AllSeniorsPage onBack={() => setPage('main')} />;
+    return <AllSeniorsPage onBack={handleBackToMain} />;
   }
   
   if (page === 'gallery' && galleryCategory) {
-      return <GalleryPage category={galleryCategory} onBack={() => { setPage('main'); setGalleryCategory(null); }} />;
+      return <GalleryPage category={galleryCategory} onBack={handleBackToMain} />;
   }
 
   return (
@@ -897,11 +953,12 @@ export default function App() {
         <div id="about" ref={sectionRefs.about}><About /></div>
         <div id="notices" ref={sectionRefs.notices}><ImportantNotices /></div>
         <div id="links" ref={sectionRefs.links}><QuickLinks /></div>
-        <div id="seniors" ref={sectionRefs.seniors}><Seniors onShowAllSeniors={() => setPage('allSeniors')} /></div>
+        <div id="seniors" ref={sectionRefs.seniors}><Seniors onShowAllSeniors={handleShowAllSeniors} /></div>
         <div id="map" ref={sectionRefs.map}><CampusMap /></div>
         <div id="gallery" ref={sectionRefs.gallery}><Gallery onCategoryClick={handleGalleryCategoryClick} /></div>
         <div id="achievers" ref={sectionRefs.achievers}><Achievers /></div>
         <div id="contact" ref={sectionRefs.contact}><Contact /></div>
+        <div id="feedback" ref={sectionRefs.feedback}><Feedback /></div>
       </main>
       <Footer />
     </div>
