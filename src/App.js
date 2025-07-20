@@ -417,7 +417,14 @@ title: "Academic Calender",
 href: "https://drive.google.com/file/d/1P7YyDzf2xh-MYQweGl1LWi91FPBsvjBs/view?usp=sharing/",
 icon: ICONS.calendar,
 description: "Get calander planned for each day for the whole year!."
+},
+{
+title: "Cepstrum",
+href: "https://iitgoffice-my.sharepoint.com/personal/cepstrum_iitg_ac_in/_layouts/15/onedrive.aspx?e=5%3Ac5eb2313bc004fc7866eca8c25526b35&at=9&FolderCTID=0x012000AB4F8FCCB94C08499FED21F13A11E188&id=%2Fpersonal%2Fcepstrum%5Fiitg%5Fac%5Fin%2FDocuments%2FPaperMan%2FFreshmen%20Year",
+icon: ICONS.academics,
+description: "Get all your academic needs in one place"
 }
+  
 ];
 
 return (
