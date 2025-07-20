@@ -385,6 +385,7 @@ const ImportantNotices = () => {
       content:
         "Information about various scholarships available at IITG and how to apply for them.",
       rotation: "transform -rotate-1",
+      link: "https://drive.google.com/file/d/1cg59qTI1ftqwB12WW6Ex7Iwlq7I3dRsU/view?usp=sharing",
     },
   ];
 
