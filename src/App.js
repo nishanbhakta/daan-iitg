@@ -67,7 +67,7 @@ const allSeniorsData = [
 { name: "Sandesh Jogdande", admissionYear: 2022, school: "JNV Bundi Rajasthan", branch: "Electronics & Communication Engineering", phone: "+91 9527714562" },
 { name: "Alku Mandal", admissionYear: 2022, school: "JNV Bundi Rajasthan", branch: "Computer Science & Engineering", phone: "+91 9263164582" },
 { name: "Rohit Keshri", admissionYear: 2022, school: "JNV Kottayam Kerala", branch: "Mathematics & Computing Engineering", phone: "+91 8857092573" },
-{ name: "Ashutosh Kumar", admissionYear: 2022, school: "JNV Ballia Uttar Pradesh", branch: "Electrical & Electronics Engineering", phone: "+91 9794301288" },
+{ name: "Ashutosh Kumar (Ex CR)", admissionYear: 2022, school: "JNV Ballia Uttar Pradesh", branch: "Electrical & Electronics Engineering", phone: "+91 9794301288" },
 { name: "Bhairu Singh Kanawat", admissionYear: 2022, school: "JNV Bhilwara Rajasthan", branch: "Electronics & Communication Engineering", phone: "+91 9672401165" },
 { name: "Saurabh Kumbhare", admissionYear: 2022, school: "JNV Chandrapur Maharashtra ", branch: "Electrical & Electronics Engineering", phone: "+91 8767589268" },
 { name: "Harshit Chachriya", admissionYear: 2022, school: "JNV Khandwa Madhya Pradesh", branch: "Computer Science & Engineering", phone: "+91 9302057401" },
@@ -94,7 +94,7 @@ const allSeniorsData = [
 { name: "Abhishek Kumar", admissionYear: 2022, school: "JNV Begusarai Bihar", branch: "Computer Science & Engineering", phone: "+91 6351764944" },
 { name: "Akash Rai", admissionYear: 2022, school: "JNV Mau Uttar Pradesh", branch: "Electronics & Communication Engineering", phone: "+91 7498768424" },
 { name: "Himanshu Kumar", admissionYear: 2023, school: "JNV Bareilly Uttar Pradesh", branch: "Computer Science & Engineering", phone: "+91 9548687823" },
-{ name: "Himanshu Paswan", admissionYear: 2023, school: "JNV Udham Singh Nagar Uttarakhand", branch: "Electrical & Electronics Engineering", phone: "+91 6395325991" },
+{ name: "Himanshu Paswan (Associate CR) ", admissionYear: 2023, school: "JNV Udham Singh Nagar Uttarakhand", branch: "Electrical & Electronics Engineering", phone: "+91 6395325991" },
 { name: "Rahul Yadav", admissionYear: 2023, school: "JNV Jaipur Rajasthan", branch: "Chemical Science & Technology", phone: "+91 9928007339" },
 { name: "Mohit Nagraj", admissionYear: 2023, school: "JNV Harda Madhya Pradesh", branch: "Civil Engineering", phone: "+91 9340923056" },
 { name: "Kanchari Praveen", admissionYear: 2023, school: "JNV Srikakulam Andhra Pradesh", branch: "Computer Science & Engineering", phone: "+91 7013015077" },
@@ -113,7 +113,7 @@ const allSeniorsData = [
 { name: "Jit Barui", admissionYear: 2023, school: "JNV Nadia West Bengal", branch: "Electrical & Electronics Engineering", phone: "+91 9832298456" },
 { name: "Siba Sankar", admissionYear: 2023, school: "JNV Rayagada Odisha", branch: "Mining Engineering ", phone: "+91 8456069935" },
 { name: "Kedar Kisan", admissionYear: 2023, school: "JNV Sambalpur Odisha", branch: "Mathematics & Computing Engineering", phone: "+91 6003776308" },
-{ name: "Adarsh Kumar", admissionYear: 2023, school: "JNV West Champaran Bihar", branch: "Electronics & Communication Engineering", phone: "+91 7667591456" },
+{ name: "Adarsh Kumar (CR)", admissionYear: 2023, school: "JNV West Champaran Bihar", branch: "Electronics & Communication Engineering", phone: "+91 7667591456" },
 { name: "Zulfiqar Ali", admissionYear: 2023, school: "Government Higher Sec School Trespone Ladakh", branch: "Electronics & Communication Engineering", phone: "+91 6005440362" },
 { name: "Priyanka Agarwal", admissionYear: 2023, school: "JNV Moradabad Uttar Pradesh", branch: "Mathematics & Computing Engineering", phone: "+91 9557437367" },
 { name: "Shalini Rao", admissionYear: 2023, school: "Central Hindu Boys School Varanasi Uttar Pradesh", branch: "Chemical Engineering", phone: "+91 8418901761" },
@@ -452,8 +452,8 @@ return (
 const Seniors = ({ onShowAllSeniors }) => {
 // FIXED: Changed featured names to people who exist in the data.
 const featuredSeniorNames = [
-"Adarsh Kumar", "Brijesh Singh Bharti", "Nishan Bhakta", "Kanak Kamini Maiti", "Vaibhav C D",
-"Ayush Kumar Gupta", "Ashutosh Kumar", "Yash Raj", "Aniket Kumar", "Divue Kumar"
+"Adarsh Kumar (CR)","Himanshu Paswan (Associate CR) ","Ashutosh Kumar (Ex CR)", "Brijesh Singh Bharti", "Nishan Bhakta", "Kanak Kamini Maiti", "Vaibhav C D",
+"Ayush Kumar Gupta"
 ];
 
 const seniors = useMemo(() =>
