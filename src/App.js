@@ -111,7 +111,7 @@ const allSeniorsData = [
 { name: "Amaresh Rathod", admissionYear: 2023, school: "JNV Koppal Karnataka", branch: "Mechanical Engineering", phone: "+91 8904104346" },
 { name: "Sagar Barman", admissionYear: 2023, school: "JNV Coochbehar West Bengal", branch: "Mathematics & Computing Engineering", phone: "+91 8391998418" },
 { name: "Jit Barui", admissionYear: 2023, school: "JNV Nadia West Bengal", branch: "Electrical & Electronics Engineering", phone: "+91 9832298456" },
-{ name: "Siba Sankar", admissionYear: 2023, school: "JNV Rayagada Odisha", branch: "Mining Engineering ", phone: "+91 8456069935" },
+{ name: "Siba Sankar", admissionYear: 2023, school: "JNV Rayagada Odisha", branch: "Mathematics & Computing Engineering ", phone: "+91 8456069935" },
 { name: "Kedar Kisan", admissionYear: 2023, school: "JNV Sambalpur Odisha", branch: "Mathematics & Computing Engineering", phone: "+91 6003776308" },
 { name: "Adarsh Kumar (CR)", admissionYear: 2023, school: "JNV West Champaran Bihar", branch: "Electronics & Communication Engineering", phone: "+91 7667591456" },
 { name: "Zulfiqar Ali", admissionYear: 2023, school: "Government Higher Sec School Trespone Ladakh", branch: "Electronics & Communication Engineering", phone: "+91 6005440362" },
@@ -157,7 +157,7 @@ const allSeniorsData = [
 { name: "Sapna Thakur", admissionYear: 2024, school: "JNV Durg Chhattisgarh", branch: "Civil Engineering", phone: "+91 7415989909" },
 { name: "Prashant Bisht", admissionYear: 2024, school: "JNV Almora Uttarakhand", branch: "Engineering Physics", phone: "+91 7456891622" },
 { name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Jashpur Chhattisgarh", branch: "Electrical & Electronics Engineering ", phone: "+91 6266 110 461" },
-{ name: "Vaibhav C D", admissionYear: 2024, school: "JNV Mysuru Karnataka", branch: "Civil Engineering", phone: "+91 9986329765" },
+{ name: "Vaibhav C D", admissionYear: 2024, school: "JNV Mysuru Karnataka", branch: "Mathematics & Computing Engineering", phone: "+91 9986329765" },
 { name: "Manish Sharma", admissionYear: 2024, school: "JNV Siwan Bihar", branch: "Civil Engineering", phone: "+91 9931676737" },
 
 ];
@@ -555,7 +555,7 @@ className="w-full h-full object-cover transform transition-transform duration-50
 
 const Contact = () => {
 // FIXED: Sourced contact info directly from allSeniorsData to ensure consistency.
-const contactNames = ["Adarsh Kumar", "Nishan Bhakta", "Ayush Kumar Gupta", "Kanak Kamini Maiti"];
+const contactNames = ["Adarsh Kumar (CR)", "Nishan Bhakta", "Ayush Kumar Gupta", "Kanak Kamini Maiti"];
 const contacts = useMemo(() =>
 contactNames.map(name =>
 allSeniorsData.find(s => s.name === name && s.phone)
