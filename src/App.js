@@ -286,7 +286,7 @@ return (
 <div className="flex flex-col md:flex-row items-center gap-12">
 <div className="md:w-1/3">
 <img
-src="https://i.postimg.cc/ZnvpL6Zk/1.png"
+src="https://i.postimg.cc/tC02M4cd/1.png"
 alt="IIT Guwahati"
 className="rounded-full shadow-2xl mx-auto border-4 border-cyan-400"
 />
