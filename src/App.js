@@ -411,6 +411,12 @@ title: "IITG Admission",
 href: "https://www.iitg.ac.in/acad/admission/",
 icon: ICONS.admission,
 description: "Find all official information related to admissions."
+},
+{
+title: "Academic Calender",
+href: "https://drive.google.com/file/d/1P7YyDzf2xh-MYQweGl1LWi91FPBsvjBs/view?usp=sharing/",
+icon: ICONS.calendar,
+description: "Get calander planned for each day for the whole year!."
 }
 ];
 
