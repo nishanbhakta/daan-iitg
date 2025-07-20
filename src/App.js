@@ -154,7 +154,7 @@ const allSeniorsData = [
   { name: "Ram Tej Duvvuri", admissionYear: 2024, school: "JNV West Godavari Andhra Pradesh", branch: "Computer Science & Engineering", phone: "+917569347325" },
   { name: "Ajaya", admissionYear: 2024, school: "JNV Koppal Karnataka", branch: "Mechanical Engineering", phone: "+919900759118" },
   { name: "Dipanjan Ghosh", admissionYear: 2024, school: "JNV Burdwan West Bengal", branch: "Chemical Engineering ", phone: "+919800687453" },
-  { name: "Kanak Kamini Maiti", admissionYear: 2024, school: "JNV Prayagraj Uttar Pradesh", branch: "Engineering Physics", phone: "+918509668934" },
+  { name: "Kanak Kamini Maiti", admissionYear: 2024, school: "JNV Prayagraj Uttar Pradesh", branch: "Engineering Physics", phone: "+918509668934",image: "https://i.postimg.cc/yd6w3rcT/Whats-App-Image-2025-07-20-at-19-57-39-20b767bd.jpg" },
   { name: "Nishan Bhakta", admissionYear: 2024, school: "JNV Nadia West Bengal", branch: "Computer Science & Engineering", phone: "+917585842982", image: "https://i.postimg.cc/Z5YyDPKk/IMG-20250720-153404.jpg" },
   { name: "Tushar Raj Prasad", admissionYear: 2024, school: "JNV Sitamarhi Bihar", branch: "Civil Engineering", phone: "+919199793074" },
   { name: "Sakshi Mehra", admissionYear: 2024, school: "JNV Bundi Rajasthan", branch: "Chemical Engineering ", phone: "+919424667983" },
@@ -167,7 +167,7 @@ const allSeniorsData = [
 ];
 
 const galleryData = {
-  "Events": {
+  "Festivals": {
     thumbnail: "https://i.postimg.cc/0jH2dRN0/IMG-20250719-WA0030.jpg",
     images: [
       { src: "https://i.postimg.cc/0jH2dRN0/IMG-20250719-WA0030.jpg", alt: "Holi Celebration" },
@@ -192,7 +192,7 @@ const galleryData = {
   "Hostel Life": {
     thumbnail: "https://i.postimg.cc/tC02M4cd/1.png",
     images: [
-       { src: "https://i.postimg.cc/tC02M4cd/1.png", alt: "View of a hostel" },
+       
     ]
   }
 };
@@ -622,7 +622,7 @@ const Achievers = () => {
     {
       name: "Vaibhav CD",
       image: "https://i.postimg.cc/65fR24MZ/Vaibhav-C-D.png",
-      achievement: "CGPI: 8.75",
+      achievement: "CGPI: 8.87",
       branch: "MNC",
       year: 2024,
     },
