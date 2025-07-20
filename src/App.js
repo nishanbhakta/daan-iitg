@@ -99,7 +99,7 @@ const allSeniorsData = [
   { name: "Abhishek Kumar", admissionYear: 2022, school: "JNV Begusarai Bihar", branch: "Computer Science & Engineering", phone: "+916351764944" },
   { name: "Akash Rai", admissionYear: 2022, school: "JNV Mau Uttar Pradesh", branch: "Electronics & Communication Engineering", phone: "+917498768424" },
   { name: "Himanshu Kumar", admissionYear: 2023, school: "JNV Bareilly Uttar Pradesh", branch: "Computer Science & Engineering", phone: "+919548687823" },
-  { name: "Himanshu Paswan (Associate CR)", admissionYear: 2023, school: "JNV Udham Singh Nagar Uttarakhand", branch: "Electrical & Electronics Engineering", phone: "+916395325991" },
+  { name: "Himanshu Paswan (Associate CR)", admissionYear: 2023, school: "JNV Udham Singh Nagar Uttarakhand", branch: "Electrical & Electronics Engineering", phone: "+916395325991" ,image:"https://i.postimg.cc/qRhp5G1Z/IMG-20250720-201942.jpg"},
   { name: "Rahul Yadav", admissionYear: 2023, school: "JNV Jaipur Rajasthan", branch: "Chemical Science & Technology", phone: "+919928007339" },
   { name: "Mohit Nagraj", admissionYear: 2023, school: "JNV Harda Madhya Pradesh", branch: "Civil Engineering", phone: "+919340923056" },
   { name: "Kanchari Praveen", admissionYear: 2023, school: "JNV Srikakulam Andhra Pradesh", branch: "Computer Science & Engineering", phone: "+917013015077" },
@@ -183,7 +183,7 @@ const galleryData = {
       { src: "https://i.postimg.cc/yxN8ZY7N/IMG-20250719-WA0033.jpg", alt: "IITG Campus Upper View" },
     ]
   },
-  "Festivals": {
+  "Events": {
     thumbnail: "https://i.postimg.cc/L8WL4wBf/IMG-20250719-WA0036.jpg",
     images: [
        { src: "https://i.postimg.cc/L8WL4wBf/IMG-20250719-WA0036.jpg", alt: "IITG Auditorium during a fest" },
@@ -325,7 +325,7 @@ const About = () => {
         <div className="flex flex-col md:flex-row items-center gap-12">
           <div className="md:w-1/3">
             <img
-              src="https://i.postimg.cc/tC02M4cd/1.png"
+              src="https://i.postimg.cc/FsGw0LZf/IMG-20250720-WA0017.jpg"
               alt="IIT Guwahati campus view"
               className="rounded-full shadow-2xl mx-auto border-4 border-cyan-400"
             />
