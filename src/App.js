@@ -156,7 +156,7 @@ const allSeniorsData = [
 { name: "Vasava Bhargav", admissionYear: 2023, school: "JNV Bharuch Gujarat", branch: "Chemical Engineering", phone: "+91 6352483669" },
 { name: "Sapna Thakur", admissionYear: 2024, school: "JNV Durg Chhattisgarh", branch: "Civil Engineering", phone: "+91 7415989909" },
 { name: "Prashant Bisht", admissionYear: 2024, school: "JNV Almora Uttarakhand", branch: "Engineering Physics", phone: "+91 7456891622" },
-{ name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Jashpur Chhattisgarh", branch: "Electrical & Electronics Engineering ", phone: "+91 7987560068" },
+{ name: "Ayush Kumar Gupta", admissionYear: 2024, school: "JNV Jashpur Chhattisgarh", branch: "Electrical & Electronics Engineering ", phone: "+91 6266 110 461" },
 { name: "Vaibhav C D", admissionYear: 2024, school: "JNV Mysuru Karnataka", branch: "Civil Engineering", phone: "+91 9986329765" },
 { name: "Manish Sharma", admissionYear: 2024, school: "JNV Siwan Bihar", branch: "Civil Engineering", phone: "+91 9931676737" },
 
