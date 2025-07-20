@@ -118,7 +118,7 @@ const allSeniorsData = [
   { name: "Jit Barui", admissionYear: 2023, school: "JNV Nadia West Bengal", branch: "Electrical & Electronics Engineering", phone: "+919832298456" },
   { name: "Siba Sankar", admissionYear: 2023, school: "JNV Rayagada Odisha", branch: "Mathematics & Computing Engineering ", phone: "+918456069935" },
   { name: "Kedar Kisan", admissionYear: 2023, school: "JNV Sambalpur Odisha", branch: "Mathematics & Computing Engineering", phone: "+916003776308" },
-  { name: "Adarsh Kumar (CR)", admissionYear: 2023, school: "JNV West Champaran Bihar", branch: "Electronics & Communication Engineering", phone: "+917667591456" },
+  { name: "Adarsh Kumar (CR)", admissionYear: 2023, school: "JNV West Champaran Bihar", branch: "Electronics & Communication Engineering", phone: "+917667591456", image:"https://i.postimg.cc/rsvbHZ45/Whats-App-Image-2025-07-20-at-19-09-15-d9b02464.jpg" },
   { name: "Zulfiqar Ali", admissionYear: 2023, school: "Government Higher Sec School Trespone Ladakh", branch: "Electronics & Communication Engineering", phone: "+916005440362" },
   { name: "Priyanka Agarwal", admissionYear: 2023, school: "JNV Moradabad Uttar Pradesh", branch: "Mathematics & Computing Engineering", phone: "+919557437367" },
   { name: "Shalini Rao", admissionYear: 2023, school: "Central Hindu Boys School Varanasi Uttar Pradesh", branch: "Chemical Engineering", phone: "+918418901761" },
@@ -620,10 +620,10 @@ const GalleryPage = ({ category, onBack }) => {
 const Achievers = () => {
   const achieversData = [
     {
-      name: "Piyush Kumar",
-      image: "https://i.postimg.cc/50x0GzB4/Piyush-Kumar.png",
-      achievement: "AIR 1 in GATE 2024 (DA)",
-      branch: "Computer Science & Engineering",
+      name: "Vaibhav CD",
+      image: "https://i.postimg.cc/65fR24MZ/Vaibhav-C-D.png",
+      achievement: "CGPI: 8.75",
+      branch: "MNC",
       year: 2024,
     },
     {
