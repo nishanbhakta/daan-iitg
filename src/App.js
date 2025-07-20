@@ -671,7 +671,7 @@ const Achievers = () => {
                 <span>{achiever.achievement}</span>
               </div>
               <p className="text-gray-400 text-sm">{achiever.branch}</p>
-              <p className="text-gray-500 text-xs">Batch of {achiever.year}</p>
+              <p className="text-gray-500 text-xs"> {getYearOfStudy(achiever.year)}</p>
             </div>
           ))}
         </div>
