@@ -34,6 +34,7 @@ const ICONS = {
   download: "M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z",
   search: "M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z",
   star: "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z",
+  location: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
 };
 
 // --- Data ---
@@ -269,15 +270,15 @@ const Header = ({ activeSection, onNavClick }) => {
           {navLinks.map(link => (
             <a
               key={link}
-              href={`#${link.toLowerCase().replace(' ', '-')}`}
+              href={`#${link.toLowerCase().replace(/\s/g, '-')}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavClick(link.toLowerCase().replace(' ', '-'));
+                onNavClick(link.toLowerCase().replace(/\s/g, '-'));
               }}
-              className={`text-gray-300 hover:text-cyan-400 transition-colors duration-300 relative font-medium ${activeSection === link.toLowerCase().replace(' ', '-') ? 'text-cyan-400' : ''}`}
+              className={`text-gray-300 hover:text-cyan-400 transition-colors duration-300 relative font-medium ${activeSection === link.toLowerCase().replace(/\s/g, '-') ? 'text-cyan-400' : ''}`}
             >
               {link}
-              {activeSection === link.toLowerCase().replace(' ', '-') && (
+              {activeSection === link.toLowerCase().replace(/\s/g, '-') && (
                 <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-cyan-400 rounded-full"></span>
               )}
             </a>
@@ -599,11 +600,11 @@ const CampusMap = () => {
   );
 };
 
-const Gallery = ({ onCategoryClick }) => {
+const Gallery = ({ onCategoryClick, onShowTouristSites }) => {
   return (
     <section id="gallery" className="py-20 bg-gray-900 text-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-12">Campus Gallery</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">Glimpses of Campus Life</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {Object.entries(galleryData).map(([category, data]) => (
             <div 
@@ -621,6 +622,11 @@ const Gallery = ({ onCategoryClick }) => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-12">
+          <button onClick={onShowTouristSites} className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-teal-500/20 text-lg">
+            Explore Nearby Tourist Sites
+          </button>
         </div>
       </div>
     </section>
@@ -657,6 +663,98 @@ const GalleryPage = ({ category, onBack }) => {
   );
 };
 
+const TouristSitesPage = ({ onBack }) => {
+  const sites = [
+    {
+      name: "Kamakhya Temple",
+      distance: "~15 km",
+      features: "A major Hindu pilgrimage site, one of the oldest 51 Shakti Pithas, located atop the Nilachal Hills with panoramic views.",
+      image: "https://i.postimg.cc/k4zZgGqf/kamakhya-temple-guwahati-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+      mapLink: "https://www.google.com/maps/place/Kamakhya+Temple/@26.1664,91.7058,15z"
+    },
+    {
+      name: "Umananda Temple",
+      distance: "~20 km (incl. ferry)",
+      features: "A Shiva temple on Peacock Island in the Brahmaputra. Known for its tranquility and the endangered golden langurs.",
+      image: "https://i.postimg.cc/J0G9nJzR/Umananda-Temple-Guwahati.jpg",
+      mapLink: "https://www.google.com/maps/place/Umananda+Temple/@26.1910,91.7451,15z"
+    },
+    {
+      name: "Assam State Zoo",
+      distance: "~23 km",
+      features: "Home to diverse wildlife, including the one-horned rhinoceros, tigers, and various bird species. A green oasis in the city.",
+      image: "https://i.postimg.cc/t4hG9G0b/assam-zoo.jpg",
+      mapLink: "https://www.google.com/maps/place/Assam+State+Zoo+cum+Botanical+Garden/@26.1661,91.7905,15z"
+    },
+    {
+      name: "Chandubi Lake",
+      distance: "~64 km",
+      features: "A natural lake formed by an earthquake, offering serene views, boating, and a popular picnic spot, especially in winter.",
+      image: "https://i.postimg.cc/W47MhL6m/Chandubi-Lake-Assam.jpg",
+      mapLink: "https://www.google.com/maps/place/Chandubi+Lake/@25.8617,91.4111,15z"
+    },
+    {
+      name: "Shillong",
+      distance: "~100 km",
+      features: "The 'Scotland of the East.' A popular weekend getaway with beautiful landscapes, waterfalls, lakes, and a vibrant cafe culture.",
+      image: "https://i.postimg.cc/MHZ1vLpM/feature-shillong.jpg",
+      mapLink: "https://www.google.com/maps/place/Shillong,+Meghalaya"
+    },
+    {
+      name: "Assam State Museum",
+      distance: "~20 km",
+      features: "Showcases the rich cultural history of Assam through artifacts, sculptures, and manuscripts near Dighalipukhuri.",
+      image: "https://i.postimg.cc/44YtX33v/assam-state-museum.jpg",
+      mapLink: "https://www.google.com/maps/place/Assam+State+Museum/@26.1865,91.7513,15z"
+    },
+    {
+      name: "ISKCON Guwahati",
+      distance: "~20 km",
+      features: "A beautiful temple dedicated to Lord Krishna, known for its peaceful ambiance, intricate architecture, and spiritual gatherings.",
+      image: "https://i.postimg.cc/4xYdKq1p/iskcon-guwahati.jpg",
+      mapLink: "https://www.google.com/maps/place/ISKCON+Guwahati/@26.1445,91.7735,15z"
+    },
+    {
+      name: "Kakochang Waterfalls",
+      distance: "~160 km",
+      features: "A beautiful, cascading waterfall surrounded by lush greenery. Often visited as part of a trip to Kaziranga National Park.",
+      image: "https://i.postimg.cc/PqBYW8j3/Kakochang-waterfall-jorhat.jpg",
+      mapLink: "https://www.google.com/maps/place/Kakochang+Waterfalls/@26.5936,93.8126,15z"
+    }
+  ];
+
+  return (
+     <div className="bg-gray-800 text-white min-h-screen">
+      <div className="container mx-auto px-6 py-10 md:py-20">
+        <button onClick={onBack} className="flex items-center gap-2 mb-8 text-cyan-400 hover:text-cyan-300 transition-colors">
+          <Icon path={ICONS.arrowLeft} />
+          Back to Main Page
+        </button>
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-12">Explore Around Guwahati</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {sites.map((site) => (
+            <div key={site.name} className="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2 flex flex-col">
+              <img src={site.image} alt={site.name} className="w-full h-48 object-cover" />
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold text-white mb-2">{site.name}</h3>
+                <p className="text-gray-400 text-sm mb-4 flex-grow">{site.features}</p>
+                <div className="mt-auto">
+                  <p className="text-sm text-cyan-400 font-semibold mb-3">Distance from IITG: {site.distance}</p>
+                  <a href={site.mapLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gray-700 hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-full text-sm transition-colors">
+                    <Icon path={ICONS.location} className="w-4 h-4" />
+                    View on Map
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 const Achievers = () => {
   const achieversData = [
     {
@@ -690,12 +788,12 @@ const Achievers = () => {
   ];
 
   return (
-    <section id="achievers" className="py-20 bg-gray-800 text-white">
+    <section id="achievers" className="py-20 bg-gray-900 text-white">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-bold text-center mb-12">Our Achievers</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {achieversData.map((achiever, index) => (
-            <div key={index} className="bg-gray-900 rounded-lg p-6 text-center shadow-lg transform transition-transform duration-300 hover:scale-105 flex flex-col items-center">
+            <div key={index} className="bg-gray-800 rounded-lg p-6 text-center shadow-lg transform transition-transform duration-300 hover:scale-105 flex flex-col items-center">
               <img
                 src={achiever.image || `https://ui-avatars.com/api/?name=${achiever.name.replace(/\s/g, '+')}&background=facc15&color=fff`}
                 alt={`Profile of ${achiever.name}`}
@@ -729,7 +827,7 @@ const Contact = () => {
     ).filter(Boolean), []);
 
   return (
-    <section id="contact" className="py-20 bg-gray-900 text-white">
+    <section id="contact" className="py-20 bg-gray-800 text-white">
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold mb-4">Have Questions?</h2>
         <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
@@ -737,7 +835,7 @@ const Contact = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {contacts.map((contact, index) => (
-            <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <div key={index} className="bg-gray-900 p-6 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold text-cyan-400">{contact.name}</h3>
               <p className="text-gray-400 mb-3">{getYearOfStudy(contact.admissionYear)}</p>
               <div className="flex items-center justify-center gap-2 text-lg">
@@ -754,7 +852,7 @@ const Contact = () => {
 
 const Feedback = () => {
     return (
-      <section id="feedback" className="py-20 bg-gray-800 text-white">
+      <section id="feedback" className="py-20 bg-gray-900 text-white">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-4">We Value Your Feedback</h2>
           <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
@@ -880,7 +978,7 @@ const AllSeniorsPage = ({ onBack }) => {
 // --- Main App Component ---
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
-  const [page, setPage] = useState('main'); // 'main', 'allSeniors', or 'gallery'
+  const [page, setPage] = useState('main'); // 'main', 'allSeniors', 'gallery', 'touristSites'
   const [galleryCategory, setGalleryCategory] = useState(null);
   const scrollPositionRef = useRef(0);
 
@@ -901,7 +999,6 @@ export default function App() {
     if (page !== 'main') {
       setPage('main');
       setGalleryCategory(null);
-      // Use a timeout to ensure the main page is rendered before scrolling
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
@@ -911,16 +1008,19 @@ export default function App() {
   };
   
   const handleShowAllSeniors = () => {
-    // Save current scroll position before changing the page
     scrollPositionRef.current = window.scrollY;
     setPage('allSeniors');
   };
 
   const handleGalleryCategoryClick = (category) => {
-    // Save current scroll position before changing the page
     scrollPositionRef.current = window.scrollY;
     setGalleryCategory(category);
     setPage('gallery');
+  };
+
+  const handleShowTouristSites = () => {
+    scrollPositionRef.current = window.scrollY;
+    setPage('touristSites');
   };
 
   const handleBackToMain = () => {
@@ -929,19 +1029,15 @@ export default function App() {
   }
 
   useEffect(() => {
-    // When returning to the main page, restore the scroll position.
     if (page === 'main') {
-      // Use a timeout to ensure the DOM is updated before scrolling
       setTimeout(() => window.scrollTo({ top: scrollPositionRef.current, behavior: 'auto' }), 0);
     } else {
-      // When navigating to a sub-page, scroll to the top of the new page.
       window.scrollTo(0, 0);
     }
   }, [page]);
 
 
   useEffect(() => {
-    // This effect handles the intersection observer for nav highlighting
     if (page !== 'main') return;
 
     const observer = new IntersectionObserver(
@@ -952,7 +1048,6 @@ export default function App() {
           }
         });
       },
-      // Adjust rootMargin to ensure the section is highlighted when it's more centered in the viewport
       { rootMargin: '-40% 0px -60% 0px' }
     );
 
@@ -977,6 +1072,10 @@ export default function App() {
       return <GalleryPage category={galleryCategory} onBack={handleBackToMain} />;
   }
 
+  if (page === 'touristSites') {
+    return <TouristSitesPage onBack={handleBackToMain} />;
+  }
+
   return (
     <div className="bg-gray-900 font-sans leading-normal tracking-tight">
       <style>{`
@@ -996,7 +1095,7 @@ export default function App() {
         <div id="links" ref={sectionRefs.links}><QuickLinks /></div>
         <div id="seniors" ref={sectionRefs.seniors}><Seniors onShowAllSeniors={handleShowAllSeniors} /></div>
         <div id="map" ref={sectionRefs.map}><CampusMap /></div>
-        <div id="gallery" ref={sectionRefs.gallery}><Gallery onCategoryClick={handleGalleryCategoryClick} /></div>
+        <div id="gallery" ref={sectionRefs.gallery}><Gallery onCategoryClick={handleGalleryCategoryClick} onShowTouristSites={handleShowTouristSites} /></div>
         <div id="achievers" ref={sectionRefs.achievers}><Achievers /></div>
         <div id="contact" ref={sectionRefs.contact}><Contact /></div>
         <div id="feedback" ref={sectionRefs.feedback}><Feedback /></div>
