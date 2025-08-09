@@ -197,7 +197,7 @@ const allSeniorsData = [
   { "name": "Sapna Thakur", "admissionYear": 2024, "school": "JNV Durg Chhattisgarh", "branch": "CE", "phone": "+917415989909" },
   { "name": "Prashant Bisht", "admissionYear": 2024, "school": "JNV Almora Uttarakhand", "branch": "EP", "phone": "+917456891622" },
   { "name": "Ayush Kumar Gupta", "admissionYear": 2024, "school": "JNV Jashpur Chhattisgarh", "branch": "EEE", "phone": "+916266110461", "image": "https://i.postimg.cc/ryW5TPWQ/Ayush-Kumar-Gupta.png" },
-  { "name": "Vaibhav C D", "admissionYear": 2024, "school": "JNV Mysuru Karnataka", "branch": "MNC", "phone": "+919986329765", "image": "https://i.postimg.cc/65fR24MZ/Vaibhav-C-D.png" },
+  { "name": "Vaibhav C D", "admissionYear": 2024, "school": "JNV Mysuru Karnataka", "branch": "MNC", "phone": "+917022926590", "image": "https://i.postimg.cc/65fR24MZ/Vaibhav-C-D.png" },
   { "name": "Manish Sharma", "admissionYear": 2024, "school": "JNV Siwan Bihar", "branch": "CE", "phone": "+919931676737" }
 ];
 
