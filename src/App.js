@@ -669,57 +669,57 @@ const TouristSitesPage = ({ onBack }) => {
       name: "Kamakhya Temple",
       distance: "~15 km",
       features: "A major Hindu pilgrimage site, one of the oldest 51 Shakti Pithas, located atop the Nilachal Hills with panoramic views.",
-      image: "https://i.postimg.cc/k4zZgGqf/kamakhya-temple-guwahati-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqEXTMfIFExk_V1vDSBW5aYrpZKg4wTRbVj64jS5X0mNzRcYr6GcMWVbVb29maGfuvTrJhvBQjG4WlrHITgljAH6DkOs6dJropUs2dkLgyV8LFBxEkBOyBJC4jPghoECy8G1qwATQ=s1360-w1360-h1020-rw",
       mapLink: "https://www.google.com/maps/place/Kamakhya+Temple/@26.1664,91.7058,15z"
     },
     {
       name: "Umananda Temple",
       distance: "~20 km (incl. ferry)",
       features: "A Shiva temple on Peacock Island in the Brahmaputra. Known for its tranquility and the endangered golden langurs.",
-      image: "https://i.postimg.cc/J0G9nJzR/Umananda-Temple-Guwahati.jpg",
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqKPNWp88G8nn3IuEcwX9Areaq_yYqPCp0PcpZU_34w8ZFh3_KBuBjytXXwrJKbUhJdyP4rf1ZRNBegT-jEkOevapB2wVoFinxXX4VnoE86w0x3JyiXD7SguZynP66qDDrlM1dzjw=s1360-w1360-h1020-rw",
       mapLink: "https://www.google.com/maps/place/Umananda+Temple/@26.1910,91.7451,15z"
     },
     {
       name: "Assam State Zoo",
       distance: "~23 km",
       features: "Home to diverse wildlife, including the one-horned rhinoceros, tigers, and various bird species. A green oasis in the city.",
-      image: "https://i.postimg.cc/t4hG9G0b/assam-zoo.jpg",
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMZwHssnqAPnk2a23TgLAi8YimS-Dvbdwsfdb3TXD6XTAyod-j7ySMK7Hh-hUZkI4daMS9BKwTj3nb5IQlQ1GfJfBgMId844GbhAvaiarwUhb5FbnMF-obZ9b-xWlw6DMLsg3m=s1360-w1360-h1020-rw",
       mapLink: "https://www.google.com/maps/place/Assam+State+Zoo+cum+Botanical+Garden/@26.1661,91.7905,15z"
     },
     {
       name: "Chandubi Lake",
       distance: "~64 km",
       features: "A natural lake formed by an earthquake, offering serene views, boating, and a popular picnic spot, especially in winter.",
-      image: "https://i.postimg.cc/W47MhL6m/Chandubi-Lake-Assam.jpg",
+      image: "https://www.sentinelassam.com/more-news/life/chandubi-lake-visit-this-place-to-experience-jungle-camping-and-eco-resort-559324",
       mapLink: "https://www.google.com/maps/place/Chandubi+Lake/@25.8617,91.4111,15z"
     },
     {
       name: "Shillong",
       distance: "~100 km",
       features: "The 'Scotland of the East.' A popular weekend getaway with beautiful landscapes, waterfalls, lakes, and a vibrant cafe culture.",
-      image: "https://i.postimg.cc/MHZ1vLpM/feature-shillong.jpg",
+      image: "https://www.meghalayatourism.in/timeline/shillong-evening-scenes/",
       mapLink: "https://www.google.com/maps/place/Shillong,+Meghalaya"
     },
     {
       name: "Assam State Museum",
       distance: "~20 km",
       features: "Showcases the rich cultural history of Assam through artifacts, sculptures, and manuscripts near Dighalipukhuri.",
-      image: "https://i.postimg.cc/44YtX33v/assam-state-museum.jpg",
+      image: "https://www.incredibleindia.gov.in/en/assam/guwahati/assam-state-museum",
       mapLink: "https://www.google.com/maps/place/Assam+State+Museum/@26.1865,91.7513,15z"
     },
     {
-      name: "ISKCON Guwahati",
-      distance: "~20 km",
+      name: "Hare Krishna Mandir",
+      distance: "~2 km",
       features: "A beautiful temple dedicated to Lord Krishna, known for its peaceful ambiance, intricate architecture, and spiritual gatherings.",
       image: "https://i.postimg.cc/4xYdKq1p/iskcon-guwahati.jpg",
-      mapLink: "https://www.google.com/maps/place/ISKCON+Guwahati/@26.1445,91.7735,15z"
+      mapLink: "https://www.google.com/maps/place/Hare+Krishna+Mandir+Guwahati/@26.2049253,91.6927481,689m/data=!3m2!1e3!4b1!4m6!3m5!1s0x375a5b26c955156b:0xb37fd09d2b164508!8m2!3d26.2049253!4d91.6953284!16s%2Fg%2F11nym0bjtl?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
     },
     {
-      name: "Kakochang Waterfalls",
-      distance: "~160 km",
+      name: "Theopani Waterfalls",
+      distance: "~30 km",
       features: "A beautiful, cascading waterfall surrounded by lush greenery. Often visited as part of a trip to Kaziranga National Park.",
-      image: "https://i.postimg.cc/PqBYW8j3/Kakochang-waterfall-jorhat.jpg",
-      mapLink: "https://www.google.com/maps/place/Kakochang+Waterfalls/@26.5936,93.8126,15z"
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npBRKixH7g1aaIHNZXHXYSX9R1nHKfC03i2-fpq-QBriBV9Cj4GaG5iSTIMUl3Ho43rshOrONMGdTyEM5uxKhhxFCl8R3oEh_u2RmWWB9C_ea-3tA5FNPIpTKYTTKSK186HI8RQjQ=w243-h406-n-k-no-nu",
+      mapLink: "https://www.google.com/maps/place/Theopani+Waterfall/@26.0786629,91.6583334,690m/data=!3m1!1e3!4m14!1m7!3m6!1s0x375a43ca6e778a03:0x67b9381bc726446c!2sTheopani+Waterfall!8m2!3d26.0786629!4d91.6609137!16s%2Fg%2F11lt1_lhtb!3m5!1s0x375a43ca6e778a03:0x67b9381bc726446c!8m2!3d26.0786629!4d91.6609137!16s%2Fg%2F11lt1_lhtb?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
     }
   ];
 
