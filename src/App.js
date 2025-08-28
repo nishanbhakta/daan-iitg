@@ -690,35 +690,35 @@ const TouristSitesPage = ({ onBack }) => {
       name: "Chandubi Lake",
       distance: "~64 km",
       features: "A natural lake formed by an earthquake, offering serene views, boating, and a popular picnic spot, especially in winter.",
-      image: "https://www.sentinelassam.com/more-news/life/chandubi-lake-visit-this-place-to-experience-jungle-camping-and-eco-resort-559324",
+      image: "https://en.wikipedia.org/wiki/Chandubi_Lake",
       mapLink: "https://www.google.com/maps/place/Chandubi+Lake/@25.8617,91.4111,15z"
     },
     {
       name: "Shillong",
       distance: "~100 km",
       features: "The 'Scotland of the East.' A popular weekend getaway with beautiful landscapes, waterfalls, lakes, and a vibrant cafe culture.",
-      image: "https://www.meghalayatourism.in/timeline/shillong-evening-scenes/",
+      image: "https://images.unsplash.com/photo-1609276804051-8c5e906cc430?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       mapLink: "https://www.google.com/maps/place/Shillong,+Meghalaya"
     },
     {
       name: "Assam State Museum",
       distance: "~20 km",
       features: "Showcases the rich cultural history of Assam through artifacts, sculptures, and manuscripts near Dighalipukhuri.",
-      image: "https://www.incredibleindia.gov.in/en/assam/guwahati/assam-state-museum",
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqsQGP5HWFCdwkNoG_Byd1l7WJRXABhLGZ1dwnOtNFSX5aSms2YJG_ilPzBGZ-qhprPotKUbwckYd4ADFx8W3vbzPHF1mgMITt0NMgdLD386wtHt2-d1AMzO-pXfXOlXU67WgQ=w243-h174-n-k-no-nu",
       mapLink: "https://www.google.com/maps/place/Assam+State+Museum/@26.1865,91.7513,15z"
     },
     {
       name: "Hare Krishna Mandir",
       distance: "~2 km",
       features: "A beautiful temple dedicated to Lord Krishna, known for its peaceful ambiance, intricate architecture, and spiritual gatherings.",
-      image: "https://i.postimg.cc/4xYdKq1p/iskcon-guwahati.jpg",
+      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npBRKixH7g1aaIHNZXHXYSX9R1nHKfC03i2-fpq-QBriBV9Cj4GaG5iSTIMUl3Ho43rshOrONMGdTyEM5uxKhhxFCl8R3oEh_u2RmWWB9C_ea-3tA5FNPIpTKYTTKSK186HI8RQjQ=w243-h406-n-k-no-nu",
       mapLink: "https://www.google.com/maps/place/Hare+Krishna+Mandir+Guwahati/@26.2049253,91.6927481,689m/data=!3m2!1e3!4b1!4m6!3m5!1s0x375a5b26c955156b:0xb37fd09d2b164508!8m2!3d26.2049253!4d91.6953284!16s%2Fg%2F11nym0bjtl?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
     },
     {
       name: "Theopani Waterfalls",
       distance: "~30 km",
       features: "A beautiful, cascading waterfall surrounded by lush greenery. Often visited as part of a trip to Kaziranga National Park.",
-      image: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npBRKixH7g1aaIHNZXHXYSX9R1nHKfC03i2-fpq-QBriBV9Cj4GaG5iSTIMUl3Ho43rshOrONMGdTyEM5uxKhhxFCl8R3oEh_u2RmWWB9C_ea-3tA5FNPIpTKYTTKSK186HI8RQjQ=w243-h406-n-k-no-nu",
+      image: "",
       mapLink: "https://www.google.com/maps/place/Theopani+Waterfall/@26.0786629,91.6583334,690m/data=!3m1!1e3!4m14!1m7!3m6!1s0x375a43ca6e778a03:0x67b9381bc726446c!2sTheopani+Waterfall!8m2!3d26.0786629!4d91.6609137!16s%2Fg%2F11lt1_lhtb!3m5!1s0x375a43ca6e778a03:0x67b9381bc726446c!8m2!3d26.0786629!4d91.6609137!16s%2Fg%2F11lt1_lhtb?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
     }
   ];
