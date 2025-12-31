@@ -458,6 +458,111 @@ const Header = ({ activeSection, onNavClick }) => {
   );
 };
 
+// --- New Year Fireworks Effect ---
+const Fireworks = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let particles = [];
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const colors = ['#22d3ee', '#ec4899', '#eab308', '#ffffff', '#ff00ff', '#00ffff'];
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 4 + 2; 
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.friction = 0.95;
+        this.gravity = 0.05;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.01;
+      }
+
+      update() {
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+
+      draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    const createExplosion = (x, y) => {
+      const particleCount = 60;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(x, y, color));
+      }
+    };
+
+    // Auto-launch fireworks
+    const launchRandomFirework = () => {
+        // Random x, random y in top half
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * (canvas.height * 0.6);
+        createExplosion(x, y);
+    }
+
+    const loop = () => {
+      // Trail effect
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Adjust opacity for trail length
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'lighter';
+
+      // Random spawn chance
+      if (Math.random() < 0.04) { 
+        launchRandomFirework();
+      }
+
+      particles = particles.filter(p => p.alpha > 0);
+      particles.forEach(p => {
+        p.update();
+        p.draw(ctx);
+      });
+
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    loop();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-[1]" />;
+};
+
 const Hero = ({ onNavClick }) => {
   const [typedText, setTypedText] = useState('');
   const roles = ["to the year 2026!", "to your dream campus.", "to a fresh start.", "to the DAAN family."];
@@ -503,29 +608,32 @@ const Hero = ({ onNavClick }) => {
         <div className="absolute top-1/4 left-1/4 text-[20vw] font-black text-cyan-500/10 rotate-12">20</div>
         <div className="absolute bottom-1/4 right-1/4 text-[20vw] font-black text-pink-500/10 -rotate-12">26</div>
       </div>
-      
+       
+      {/* Fireworks Animation */}
+      <Fireworks />
+
       {/* Animated Particles via CSS */}
       <div className="sparkles absolute inset-0 z-0"></div>
 
-      <div className="text-center z-10 p-6 max-w-4xl mx-auto">
-        <div className="inline-block mb-6 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-bold uppercase tracking-[0.2em] animate-pulse">
+      <div className="text-center z-10 p-6 max-w-4xl mx-auto relative">
+        <div className="inline-block mb-6 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-bold uppercase tracking-[0.2em] animate-pulse backdrop-blur-sm">
            New Year 2026 Edition
         </div>
-        <h1 className="text-5xl md:text-8xl font-black mb-6 leading-tight tracking-tighter">
+        <h1 className="text-5xl md:text-8xl font-black mb-6 leading-tight tracking-tighter drop-shadow-lg">
           Happy New Year, <br/>
           <span className="bg-gradient-to-r from-cyan-400 via-white to-pink-400 bg-clip-text text-transparent">Dakshana Scholars!</span>
         </h1>
-        <p className="text-xl md:text-3xl font-medium text-gray-400 h-10">
+        <p className="text-xl md:text-3xl font-medium text-gray-400 h-10 drop-shadow-md">
           Welcome {typedText}
           <span className="w-1 h-8 bg-cyan-400 inline-block ml-2 animate-blink"></span>
         </p>
         
         <div className="mt-16 flex flex-col md:flex-row gap-4 justify-center">
-          <a href="#notices" onClick={() => onNavClick('notices')} className="group relative px-10 py-4 bg-cyan-500 text-gray-900 font-black rounded-xl transition-all duration-300 hover:scale-105 overflow-hidden">
+          <a href="#notices" onClick={() => onNavClick('notices')} className="group relative px-10 py-4 bg-cyan-500 text-gray-900 font-black rounded-xl transition-all duration-300 hover:scale-105 overflow-hidden shadow-lg shadow-cyan-500/20">
             <span className="relative z-10">EXPLORE 2026 UPDATES</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
           </a>
-          <a href="#seniors" onClick={() => onNavClick('seniors')} className="px-10 py-4 bg-gray-800 text-white font-black border border-gray-700 rounded-xl hover:bg-gray-700 transition-all">
+          <a href="#seniors" onClick={() => onNavClick('seniors')} className="px-10 py-4 bg-gray-800/80 backdrop-blur text-white font-black border border-gray-700 rounded-xl hover:bg-gray-700 transition-all">
             MEET THE SENIORS
           </a>
         </div>
@@ -617,7 +725,7 @@ const ImportantNotices = () => {
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-6xl font-black text-center mb-4 leading-none">THE BULLETIN</h2>
         <p className="text-center text-gray-500 mb-16 uppercase tracking-[0.5em] font-bold">2026 Official Updates</p>
-        
+         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {notices.map((notice, index) => (
             <div
@@ -696,7 +804,7 @@ const Seniors = ({ onShowAllSeniors }) => {
       <div className="container mx-auto px-6">
         <h2 className="text-4xl md:text-6xl font-black text-center mb-4 tracking-tighter">OUR LEADERS</h2>
         <p className="text-center text-gray-500 mb-16 uppercase tracking-[0.5em] font-bold italic">The 2026 Representatives</p>
-        
+         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8">
           {seniors.map((senior, index) => (
             <div key={index} className="bg-gray-800 rounded-3xl p-8 text-center border border-gray-700 hover:border-pink-500/50 hover:bg-gray-800/80 transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center">
@@ -715,7 +823,7 @@ const Seniors = ({ onShowAllSeniors }) => {
             </div>
           ))}
         </div>
-        
+         
         <div className="text-center mt-16">
           <button onClick={onShowAllSeniors} className="px-10 py-4 bg-white text-gray-900 font-black rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.1)] uppercase tracking-widest">
             Search Student Directory
@@ -835,7 +943,7 @@ const Contact = () => {
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-8xl font-black mb-6 tracking-tighter leading-none">NEED <span className="text-cyan-400">HELP?</span></h2>
         <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-20 uppercase font-black tracking-widest italic">We are active for the Jan 2026 Batch</p>
-        
+         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {contacts.map((contact, index) => (
             <div key={index} className="bg-gray-800 p-8 rounded-[2rem] border-2 border-transparent hover:border-cyan-500 transition-all flex flex-col justify-center">
@@ -1010,7 +1118,7 @@ const TouristSitesPage = ({ onBack }) => {
                 <p className="text-gray-500 mt-6 font-medium leading-relaxed">{s.desc}</p>
               </div>
               <a href={s.map} target="_blank" rel="noopener noreferrer" className="mt-8 flex items-center justify-center gap-2 bg-gray-800 text-white font-black py-3 rounded-xl hover:bg-cyan-500 hover:text-gray-900 transition-all">
-                 MAP
+                  MAP
               </a>
             </div>
           ))}
