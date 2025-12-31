@@ -683,8 +683,7 @@ const QuickLinks = () => {
 
 const Seniors = ({ onShowAllSeniors }) => {
   const featuredSeniorNames = [
-    "Adarsh Kumar (Ex CR)", "Himanshu Paswan (Ex Associate CR)", "Ashutosh Kumar (Ex CR)", "Brijesh Singh Bharti", "Manish Sharma (CR)", "Kanak Kamini Maiti", "Vaibhav C D",
-    "Ayush Kumar Gupta (CR)"
+    "Manish Sharma (CR)","Ayush Kumar Gupta (CR)","Adarsh Kumar (Ex CR)",  "Himanshu Paswan (Ex Associate CR)", "Ashutosh Kumar (Ex CR)", "Brijesh Singh Bharti", "Kanak Kamini Maiti", "Vaibhav C D"
   ];
 
   const seniors = useMemo(() =>
