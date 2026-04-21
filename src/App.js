@@ -416,8 +416,51 @@ const getYearOfStudy = (admissionYear) => {
 
 // --- Page Components ---
 
+const ScrollProgressBar = () => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <div className="fixed top-0 left-0 right-0 h-1 z-[60] bg-gray-800">
+      <div
+        className="h-full bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-400"
+        style={{ width: `${progress}%`, transition: 'width 0.05s linear' }}
+      />
+    </div>
+  );
+};
+
+const ScrollToTopButton = () => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-50 p-3 bg-cyan-500 text-gray-900 rounded-2xl shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-110 active:scale-95 transition-all"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+  );
+};
+
 const Header = ({ activeSection, onNavClick }) => {
   const navLinks = ["Home", "About", "Notices", "Links", "Seniors", "Map", "Gallery", "Achievers", "Contact", "Feedback"];
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center bg-gray-900/90 backdrop-blur-md border-b border-cyan-500/30 rounded-b-xl shadow-xl">
@@ -425,7 +468,7 @@ const Header = ({ activeSection, onNavClick }) => {
            <div className="bg-cyan-500 p-1 rounded-lg">
              <Icon path={ICONS.celebrate} className="w-5 h-5 text-gray-900" />
            </div>
-           <a href="#home" onClick={() => onNavClick('home')} className="text-xl md:text-2xl font-black text-white tracking-tighter">
+           <a href="#home" onClick={() => { onNavClick('home'); setMobileOpen(false); }} className="text-xl md:text-2xl font-black text-white tracking-tighter">
              DAAN <span className="text-cyan-400">2026</span>
            </a>
         </div>
@@ -448,12 +491,45 @@ const Header = ({ activeSection, onNavClick }) => {
           ))}
         </div>
         <div className="lg:hidden">
-          {/* Mobile menu could go here */}
-          <button className="text-white bg-gray-800 p-2 rounded-lg">
-            <Icon path={ICONS.celebrate} className="w-6 h-6" />
+          <button
+            onClick={() => setMobileOpen(open => !open)}
+            aria-label="Toggle menu"
+            className="text-white bg-gray-800 p-2 rounded-lg"
+          >
+            {mobileOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
           </button>
         </div>
       </nav>
+      {mobileOpen && (
+        <div className="lg:hidden bg-gray-900/95 backdrop-blur-md border-b border-cyan-500/20 px-6 py-4 flex flex-col gap-1">
+          {navLinks.map(link => (
+            <a
+              key={link}
+              href={`#${link.toLowerCase().replace(/\s/g, '-')}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavClick(link.toLowerCase().replace(/\s/g, '-'));
+                setMobileOpen(false);
+              }}
+              className={`block py-2 px-4 rounded-xl text-sm font-bold uppercase tracking-widest transition-colors ${
+                activeSection === link.toLowerCase().replace(/\s/g, '-')
+                  ? 'text-cyan-400 bg-cyan-500/10'
+                  : 'text-gray-400 hover:text-white hover:bg-gray-800'
+              }`}
+            >
+              {link}
+            </a>
+          ))}
+        </div>
+      )}
     </header>
   );
 };
@@ -563,9 +639,16 @@ const Fireworks = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-[1]" />;
 };
 
+const TYPING_ROLES = ["to the year 2026!", "to your dream campus.", "to a fresh start.", "to the DAAN family."];
+const HERO_STATS = [
+  { value: `${allSeniorsData.length}+`, label: "Scholars" },
+  { value: "5", label: "Batches" },
+  { value: "12+", label: "Branches" },
+  { value: "IIT G", label: "Campus" },
+];
+
 const Hero = ({ onNavClick }) => {
   const [typedText, setTypedText] = useState('');
-  const roles = ["to the year 2026!", "to your dream campus.", "to a fresh start.", "to the DAAN family."];
   const typingSpeed = 80;
   const deletingSpeed = 40;
   const delay = 1500;
@@ -577,7 +660,7 @@ const Hero = ({ onNavClick }) => {
     let timeoutId;
 
     const type = () => {
-      const currentRole = roles[roleIndex];
+      const currentRole = TYPING_ROLES[roleIndex];
       if (isDeleting) {
         setTypedText(currentRole.substring(0, charIndex - 1));
         charIndex--;
@@ -591,7 +674,7 @@ const Hero = ({ onNavClick }) => {
         timeoutId = setTimeout(type, delay);
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
-        roleIndex = (roleIndex + 1) % roles.length;
+        roleIndex = (roleIndex + 1) % TYPING_ROLES.length;
         timeoutId = setTimeout(type, typingSpeed);
       } else {
         timeoutId = setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
@@ -636,6 +719,15 @@ const Hero = ({ onNavClick }) => {
           <a href="#seniors" onClick={() => onNavClick('seniors')} className="px-10 py-4 bg-gray-800/80 backdrop-blur text-white font-black border border-gray-700 rounded-xl hover:bg-gray-700 transition-all">
             MEET THE SENIORS
           </a>
+        </div>
+
+        <div className="mt-16 flex flex-wrap justify-center gap-8 md:gap-16 border-t border-gray-700/50 pt-10">
+          {HERO_STATS.map(stat => (
+            <div key={stat.label} className="text-center">
+              <div className="text-3xl md:text-4xl font-black text-white">{stat.value}</div>
+              <div className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -789,13 +881,13 @@ const QuickLinks = () => {
   );
 };
 
-const Seniors = ({ onShowAllSeniors }) => {
-  const featuredSeniorNames = [
-    "Manish Sharma (CR)","Ayush Kumar Gupta (CR)","Adarsh Kumar (Ex CR)",  "Himanshu Paswan (Ex Associate CR)", "Ashutosh Kumar (Ex CR)", "Brijesh Singh Bharti", "Kanak Kamini Maiti", "Vaibhav C D"
-  ];
+const FEATURED_SENIOR_NAMES = [
+  "Manish Sharma (CR)","Ayush Kumar Gupta (CR)","Adarsh Kumar (Ex CR)",  "Himanshu Paswan (Ex Associate CR)", "Ashutosh Kumar (Ex CR)", "Brijesh Singh Bharti", "Kanak Kamini Maiti", "Vaibhav C D"
+];
 
+const Seniors = ({ onShowAllSeniors }) => {
   const seniors = useMemo(() =>
-    featuredSeniorNames.map(name =>
+    FEATURED_SENIOR_NAMES.map(name =>
       allSeniorsData.find(s => s.name.trim() === name.trim())
     ).filter(Boolean), []);
 
@@ -946,12 +1038,20 @@ const Contact = () => {
          
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {contacts.map((contact, index) => (
-            <div key={index} className="bg-gray-800 p-8 rounded-[2rem] border-2 border-transparent hover:border-cyan-500 transition-all flex flex-col justify-center">
+            <div key={index} className="bg-gray-800 p-8 rounded-[2rem] border-2 border-transparent hover:border-cyan-500 transition-all flex flex-col items-center text-center">
+              <div className="relative mb-5">
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-pink-500 rounded-full blur-sm opacity-50"></div>
+                <img
+                  src={contact.image || `https://ui-avatars.com/api/?name=${contact.name.replace(/\s/g, '+')}&background=0D9488&color=fff`}
+                  alt={contact.name}
+                  className="relative w-24 h-24 rounded-full border-4 border-gray-900 object-cover z-10"
+                />
+              </div>
               <h3 className="text-2xl font-black uppercase tracking-tighter mb-1">{contact.name}</h3>
               <p className="text-gray-500 text-xs font-bold uppercase mb-6 tracking-widest">{getYearOfStudy(contact.admissionYear)}</p>
-              <a 
-                href={`tel:${contact.phone?.replace(/\s/g, '')}`} 
-                className="flex items-center justify-center gap-3 bg-cyan-500 text-gray-900 py-3 rounded-xl font-black hover:scale-105 transition-transform"
+              <a
+                href={`tel:${contact.phone?.replace(/\s/g, '')}`}
+                className="flex items-center justify-center gap-3 bg-cyan-500 text-gray-900 py-3 px-6 rounded-xl font-black hover:scale-105 transition-transform w-full"
               >
                 <Icon path={ICONS.phone} className="w-5 h-5" />
                 CALL NOW
@@ -986,10 +1086,21 @@ const Feedback = () => (
 const Footer = () => (
   <footer className="bg-gray-950 text-gray-600 py-12 border-t border-gray-900">
     <div className="container mx-auto px-6 text-center">
-      <div className="flex justify-center gap-4 mb-8">
+      <div className="flex justify-center gap-4 mb-6">
         <div className="w-12 h-1 bg-cyan-500 rounded-full"></div>
         <div className="w-12 h-1 bg-pink-500 rounded-full"></div>
         <div className="w-12 h-1 bg-yellow-500 rounded-full"></div>
+      </div>
+      <div className="flex justify-center gap-3 mb-6">
+        <a
+          href="https://www.linkedin.com/groups/DAAN-IIT-Guwahati/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          className="p-2 bg-gray-800 rounded-xl text-gray-500 hover:text-cyan-400 hover:bg-gray-700 transition-all"
+        >
+          <Icon path={ICONS.linkedin} className="w-5 h-5" />
+        </a>
       </div>
       <p className="font-black uppercase tracking-[0.3em] text-sm">© 2026 DAAN IIT Guwahati</p>
       <p className="text-xs mt-2 uppercase tracking-widest text-gray-800">Designed for Dakshana Scholars</p>
@@ -1196,6 +1307,8 @@ export default function App() {
       if (ref.current) observer.observe(ref.current);
     });
     return () => observer.disconnect();
+    // sectionRefs contains stable refs; only re-run when page changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   // Routing
@@ -1225,7 +1338,9 @@ export default function App() {
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 5px; }
         ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
       `}</style>
-      
+
+      <ScrollProgressBar />
+      <ScrollToTopButton />
       <Header activeSection={activeSection} onNavClick={handleNavClick} />
       
       <main>
