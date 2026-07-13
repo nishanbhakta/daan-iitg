@@ -72,7 +72,7 @@ const AllSeniorsPage = ({ onBack }) => {
           Feel free to contact any senior. We are always happy to help.
         </p>
 
-        <div className="bg-gray-800 rounded-xl p-6 mb-10 grid md:grid-cols-3 gap-4">
+        <div className="bg-gray-800 rounded-xl p-4 md:p-6 mb-10 grid grid-cols-1 md:grid-cols-3 gap-4">
 
           <input
             type="text"
