@@ -6,9 +6,9 @@ import { getYearOfStudy } from '../utils/helpers';
 const Contact = () => {
   const contacts = [
     { name: "Adarsh Kumar", phone: "+91 76675 91456", year: getYearOfStudy(2023) },
-    { name: "Nishan Bhakta", phone: "+91 75858 42982", year: getYearOfStudy(2023) },
+    { name: "Nishan Bhakta", phone: "+91 75858 42982", year: getYearOfStudy(2024) },
     { name: "Ayush Kumar Gupta", phone: "+91 6266 110 461", year: getYearOfStudy(2024) },
-    { name: "Kanak K Maiti", phone: "+91 6297 558 783", year: getYearOfStudy(2023) },
+    { name: "Kanak K Maiti", phone: "+91 6297 558 783", year: getYearOfStudy(2024) },
   ];
 
   return (

@@ -1,6 +1,4 @@
 import React from 'react';
-import Icon from './Icon';
-import ICONS from '../constants/icons';
 import { getYearOfStudy } from '../utils/helpers';
 import allSeniorsData from '../data/seniorsData';
 
@@ -36,7 +34,7 @@ const Seniors = ({ onShowAllSeniors }) => {
                 aria-label={`View ${senior.name}'s LinkedIn profile`}
                 className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 inline-block mt-2"
               >
-                <Icon path={ICONS.linkedin} className="w-5 h-5 mx-auto" />
+
               </button>
             </div>
           ))}
