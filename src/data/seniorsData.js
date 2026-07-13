@@ -139,6 +139,48 @@ const allSeniorsData = [
     { name: "Vishwajeet Kumar Singh", admissionYear: 2023, school: "JNV Samastipur", branch: "Mechanical Engineering" },
     { name: "Satyajeet Kumar Singh", admissionYear: 2023, school: "JNV Muzaffarpur", branch: "Mechanical Engineering" },
     { name: "Amarjeet Kumar Singh", admissionYear: 2023, school: "JNV Gaya", branch: "Mechanical Engineering" },
+
+
+    // 2nd Year
+
+    
+    { name: "Mohit Kumar", admissionYear: 2025, school: "JNV Jaffarpur", branch: "Computer Science and Engineering", phone: "8076680041" },
+    { name: "Vikash Kumar Mahra", admissionYear: 2025, school: "JNV Amarkantak", branch: "Mathematics and Computing", phone: "9098703807" },
+    { name: "Pratibha", admissionYear: 2025, school: "Non JNV", branch: "Electronics and Communication Engineering", phone: "9354029030" },
+    { name: "Nitin Kumar Meena", admissionYear: 2025, school: "JNV Alwar", branch: "Mathematics and Computing", phone: "9414804982" },
+    { name: "Ankit Dhakad", admissionYear: 2025, school: "JNV Shivpuri", branch: "Civil Engineering", phone: "8817468685" },
+    { name: "Sacheth Gowda K", admissionYear: 2025, school: "JNV Mandya", branch: "Chemical Science and Technology", phone: "6362451091" },
+    { name: "Siddharth Maruti Sanap", admissionYear: 2025, school: "JNV Nashik", branch: "Mechanical Engineering", phone: "9923012640" },
+    { name: "Sayan Majee", admissionYear: 2025, school: "JNV Purulia", branch: "Electrical and Electronics Engineering", phone: "9883841404" },
+    { name: "Aryan", admissionYear: 2025, school: "JNV Gaya-1", branch: "Computer Science and Engineering", phone: "7739713126" },
+    { name: "Mehak", admissionYear: 2025, school: "JNV Jhajjar", branch: "Mechanical Engineering", phone: "7027321340" },
+    { name: "Satish Kumar Jarabala", admissionYear: 2025, school: "JNV West Godavari", branch: "Unknown", phone: "9347284002" },
+    { name: "Ankit Chaurasiya", admissionYear: 2025, school: "JNV Siddharth Nagar", branch: "Electronics and Communication Engineering", phone: "9336062390" },
+    { name: "Navaneeth Kumar", admissionYear: 2025, school: "JNV Kolar", branch: "Mechanical Engineering", phone: "6361176947" },
+    { name: "Sajan Kumar", admissionYear: 2025, school: "JNV East Champaran", branch: "Computer Science and Engineering", phone: "8651462479" },
+    { name: "Ujjwal Ahirwar", admissionYear: 2025, school: "JNV Vidisha", branch: "Computer Science and Engineering", phone: "6263610945" },
+    { name: "Pushpendra Kurrey", admissionYear: 2025, school: "JNV Bahera", branch: "Electronics and Communication Engineering", phone: "9238569175" },
+    { name: "Laxmidhar Mohapatra", admissionYear: 2025, school: "JNV Balasore", branch: "Computer Science and Engineering", phone: "9861783046" },
+    { name: "Kshetrimayum Naresh Singh", admissionYear: 2025, school: "JNV Kakching", branch: "Data Science and Artificial Intelligence", phone: "7085177536" },
+    { name: "Suresh Kumar", admissionYear: 2025, school: "JNV Chitrakoot", branch: "Chemical Engineering", phone: "8009333087" },
+    { name: "Aman", admissionYear: 2025, school: "JNV Alwar", branch: "Mathematics and Computing", phone: "7014551020" },
+    { name: "Ekta Yadav", admissionYear: 2025, school: "JNV Deoria", branch: "Chemical Engineering", phone: "9695562256" },
+    { name: "Priyanka Sandilya", admissionYear: 2025, school: "JNV Koria", branch: "Electronics and Communication Engineering", phone: "9303402450" },
+    { name: "Anupam Jagadev", admissionYear: 2025, school: "JNV Khordha", branch: "Electronics and Communication Engineering", phone: "8249902050" },
+    { name: "Satyam", admissionYear: 2025, school: "JNV Mitauli", branch: "Civil Engineering", phone: "9793963075" },
+    { name: "Ram Singh Malviya", admissionYear: 2025, school: "JNV Agar Malwa", branch: "Chemical Science and Technology", phone: "9981451102" },
+    { name: "Ravindra Singh", admissionYear: 2025, school: "JNV Moradabad", branch: "Mechanical Engineering", phone: "9520566214" },
+    { name: "Gourav", admissionYear: 2025, school: "JNV Jhajjar", branch: "Chemical Science and Technology", phone: "9306563178" },
+    { name: "Moirangthem Arlex Singh", admissionYear: 2025, school: "JNV Kakching", branch: "Data Science and Artificial Intelligence", phone: "8575588149" },
+    { name: "Aditya Aghame", admissionYear: 2025, school: "JNV Akola", branch: "Electronics and Communication Engineering", phone: "8080510401" },
+    { name: "Praveen Kumar", admissionYear: 2025, school: "JNV Mau", branch: "Data Science and Artificial Intelligence", phone: "7084819498" },
+    { name: "Akash V", admissionYear: 2025, school: "JNV Chikkamagaluru", branch: "Mathematics and Computing", phone: "6360472205" },
+    { name: "Guguloth Vinay", admissionYear: 2025, school: "Government College, Telangana", branch: "Chemical Engineering", phone: "9347603996" },
+    { name: "Manas Mistry", admissionYear: 2025, school: "JNV Durgapur", branch: "Unknown", phone: "9083657678" },
+    { name: "Vaibhav", admissionYear: 2025, school: "JNV Amethi", branch: "Chemical Science and Technology", phone: "9569938792" },
+    { name: "Laxmi Prasad", admissionYear: 2025, school: "JNV Medak", branch: "Unknown", phone: "7013152173" },
+    { name: "Ajay Pratap Singh Lodha", admissionYear: 2025, school: "JNV Khiriya Devat", branch: "Mechanical Engineering", phone: "6232343240" },
+
 ];
 
 export default allSeniorsData;

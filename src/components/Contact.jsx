@@ -9,6 +9,9 @@ const Contact = () => {
     { name: "Nishan Bhakta", phone: "+91 75858 42982", year: getYearOfStudy(2024) },
     { name: "Ayush Kumar Gupta", phone: "+91 6266 110 461", year: getYearOfStudy(2024) },
     { name: "Kanak K Maiti", phone: "+91 6297 558 783", year: getYearOfStudy(2024) },
+    { name: "Laxmidhar Mohapatra", phone: "+91 98617 83046", year: getYearOfStudy(2025) },
+    { name: "Pratibha", phone: "+91 93540 29030", year: getYearOfStudy(2025) },
+    
   ];
 
   return (
