@@ -1,49 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import ImportantNotices from './components/ImportantNotices';
-import QuickLinks from './components/QuickLinks';
-import Seniors from './components/Seniors';
-import CampusMap from './components/CampusMap';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import AllSeniorsPage from './components/AllSeniorsPage';
-import ItemsToBring from './components/ItemsToBring';
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import ImportantNotices from "./components/ImportantNotices";
+import QuickLinks from "./components/QuickLinks";
+import Seniors from "./components/Seniors";
+import CampusMap from "./components/CampusMap";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import AllSeniorsPage from "./components/AllSeniorsPage";
+import ItemsToBring from "./components/ItemsToBring";
+import FreshersAlert from "./components/FreshersAlert";
 
 const SECTION_IDS = [
-  'home',
-  'about',
-  'notices',
-  'links',
-  'seniors',
-  'map',
-  'gallery',
-  'contact',
+  "home",
+  "about",
+  "notices",
+  "links",
+  "seniors",
+  "map",
+  "gallery",
+  "contact",
 ];
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [page, setPage] = useState('main');
+  const [activeSection, setActiveSection] = useState("home");
+  const [page, setPage] = useState("main");
+
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    const hideAlert = localStorage.getItem("hideFreshersAlert");
+
+    if (!hideAlert) {
+      setShowAlert(true);
+    }
+  }, []);
 
   const handleNavClick = (id) => {
-    if (page !== 'main') {
-      setPage('main');
+    if (page !== "main") {
+      setPage("main");
 
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }, 100);
     } else {
       document.getElementById(id)?.scrollIntoView({
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   };
 
   useEffect(() => {
-    if (page !== 'main') return;
+    if (page !== "main") return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -54,7 +65,7 @@ export default function App() {
         });
       },
       {
-        rootMargin: '-50% 0px -50% 0px',
+        rootMargin: "-50% 0px -50% 0px",
       }
     );
 
@@ -71,16 +82,21 @@ export default function App() {
     };
   }, [page]);
 
-  if (page === 'allSeniors') {
-    return <AllSeniorsPage onBack={() => setPage('main')} />;
+  if (page === "allSeniors") {
+    return <AllSeniorsPage onBack={() => setPage("main")} />;
   }
 
-  if (page === 'itemsToBring') {
-    return <ItemsToBring onBack={() => setPage('main')} />;
+  if (page === "itemsToBring") {
+    return <ItemsToBring onBack={() => setPage("main")} />;
   }
 
   return (
     <div className="bg-gray-900 font-sans">
+
+      {showAlert && (
+        <FreshersAlert onClose={() => setShowAlert(false)} />
+      )}
+
       <Header
         activeSection={activeSection}
         onNavClick={handleNavClick}
@@ -89,17 +105,16 @@ export default function App() {
       <main>
         <Hero onNavClick={handleNavClick} />
 
-
         <About />
 
         <ImportantNotices
-          onShowItems={() => setPage('itemsToBring')}
+          onShowItems={() => setPage("itemsToBring")}
         />
 
         <QuickLinks />
 
         <Seniors
-          onShowAllSeniors={() => setPage('allSeniors')}
+          onShowAllSeniors={() => setPage("allSeniors")}
         />
 
         <CampusMap />
