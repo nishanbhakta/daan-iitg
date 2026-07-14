@@ -1,29 +1,24 @@
+import React from 'react';
+
 const GRADIENTS = [
   "from-cyan-400 to-blue-500",
   "from-blue-400 to-indigo-500",
   "from-teal-400 to-cyan-500",
   "from-purple-400 to-blue-500",
   "from-sky-400 to-cyan-500",
-]
+];
 
-function initials(name: string) {
-  return name
+const initials = (name) =>
+  name
     .split(" ")
     .map((w) => w[0])
     .slice(0, 2)
     .join("")
-    .toUpperCase()
-}
+    .toUpperCase();
 
-export function InitialsAvatar({
-  name,
-  size = "md",
-}: {
-  name: string
-  size?: "md" | "lg"
-}) {
-  const gradient = GRADIENTS[name.length % GRADIENTS.length]
-  const sizeCls = size === "lg" ? "h-20 w-20 text-2xl" : "h-12 w-12 text-base"
+const InitialsAvatar = ({ name, size = "md" }) => {
+  const gradient = GRADIENTS[name.length % GRADIENTS.length];
+  const sizeCls = size === "lg" ? "h-20 w-20 text-2xl" : "h-12 w-12 text-base";
   return (
     <span
       aria-hidden="true"
@@ -31,5 +26,7 @@ export function InitialsAvatar({
     >
       {initials(name)}
     </span>
-  )
-}
+  );
+};
+
+export default InitialsAvatar;

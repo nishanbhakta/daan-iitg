@@ -1,5 +1,6 @@
 import React from "react";
 import { getYearOfStudy } from "../utils/helpers";
+import InitialsAvatar from "./InitialsAvatar";
 
 const Contact = () => {
   const contacts = [
@@ -18,86 +19,62 @@ const Contact = () => {
   ];
 
   return (
-    <section
-      id="contact"
-      className="py-24 bg-gradient-to-b from-slate-900 to-gray-900 px-6"
-    >
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="relative bg-gray-900 px-4 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
+            We've Got You
+          </span>
+          <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-white">
+            Contact Us
+          </h2>
+          <p className="mt-5 text-pretty leading-relaxed text-gray-400">
+            Need help regarding admission, hostel allotment, registration,
+            academics, campus life, or anything else? Feel free to contact our
+            Collage Representatives. They will be happy to assist you.
+          </p>
+        </div>
 
-        <h2 className="text-4xl font-bold text-center text-white mb-4">
-           Contact Us
-        </h2>
-
-        <p className="text-center text-gray-400 max-w-3xl mx-auto mb-14">
-          Need help regarding admission, hostel allotment, registration,
-          academics, campus life, or anything else? Feel free to contact our
-          Collage Representatives. They will be happy to assist you.
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-8">
-
+        <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {contacts.map((contact, index) => (
             <div
               key={index}
-              className="bg-slate-800 border border-slate-700 rounded-2xl p-8 hover:border-cyan-400 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300"
+              className="group flex flex-col items-center rounded-2xl border border-cyan-400/15 bg-white/5 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_12px_45px_-12px_rgba(34,211,238,0.55)]"
             >
-              {/* Avatar */}
-              <div className="flex justify-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-3xl font-bold text-white">
-                  {contact.name
-                    .split(" ")
-                    .map((word) => word[0])
-                    .slice(0, 2)
-                    .join("")}
-                </div>
+              <div className="transition-transform duration-300 group-hover:scale-110">
+                <InitialsAvatar name={contact.name} size="lg" />
               </div>
 
-              {/* Name */}
               <h3 className="text-2xl font-bold text-white text-center mt-5">
                 {contact.name}
               </h3>
+              <p className="text-center text-cyan-300 mt-1">{contact.role}</p>
+              <p className="text-center text-gray-400 text-sm mt-1">{contact.year}</p>
 
-              {/* Role */}
-              <p className="text-center text-cyan-400 mt-1">
-                {contact.role}
-              </p>
-
-              {/* Year */}
-              <p className="text-center text-gray-400 text-sm mt-1">
-                {contact.year}
-              </p>
-
-              {/* Buttons */}
-              <div className="grid grid-cols-2 gap-4 mt-8">
-
+              <div className="grid grid-cols-2 gap-4 mt-8 w-full">
                 <a
                   href={`tel:${contact.phone}`}
-                  className="bg-blue-600 hover:bg-blue-700 rounded-xl py-3 text-center text-white font-semibold transition"
+                  className="rounded-xl border border-cyan-400/20 bg-white/5 py-3 text-center text-sm font-semibold text-gray-200 transition-colors duration-300 hover:bg-white/10 hover:text-white"
                 >
                   📞 Call
                 </a>
-
                 <a
                   href={`https://wa.me/91${contact.phone}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="bg-green-600 hover:bg-green-700 rounded-xl py-3 text-center text-white font-semibold transition"
+                  className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 py-3 text-center text-sm font-bold text-gray-900 shadow-lg shadow-cyan-500/25 transition-transform duration-300 hover:scale-[1.03]"
                 >
                   💬 WhatsApp
                 </a>
-
               </div>
             </div>
           ))}
-
         </div>
 
-        {/* Bottom Note */}
-        <div className="mt-16 bg-cyan-950 border border-cyan-700 rounded-xl p-6 text-center">
+        <div className="mt-12 rounded-3xl border border-cyan-400/20 bg-white/5 p-6 text-center backdrop-blur-md">
           <h3 className="text-xl font-semibold text-cyan-300 mb-3">
             We're Here to Help!
           </h3>
-
           <p className="text-gray-300 leading-7">
             Don't hesitate to reach out if you have any questions regarding
             IIT Guwahati, admission formalities, hostel life, academics,
@@ -105,7 +82,6 @@ const Contact = () => {
             and support incoming freshers.
           </p>
         </div>
-
       </div>
     </section>
   );

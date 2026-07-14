@@ -16,3 +16,6 @@ export const getYearOfStudy = (admissionYear) => {
 };
 
 export const slugify = (label) => label.toLowerCase().replace(/\s+/g, '-');
+
+// --- Class name merge helper (ported from style template) ---
+export const cn = (...classes) => classes.filter(Boolean).join(" ");
