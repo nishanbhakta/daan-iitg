@@ -4,6 +4,15 @@ import {
   getCabShares,
   deleteCabShare,
 } from "../services/cabShareService";
+import {
+  FaPlane,
+  FaTrain,
+  FaSearch,
+  FaCompass,
+  FaPlus,
+  FaWhatsapp,
+  FaTrash,
+} from "react-icons/fa";
 
 // -----------------------------
 // Hostel List
@@ -53,135 +62,6 @@ const PICKUP_POINTS = {
     kind: "rail",
   },
 };
-
-// -----------------------------
-// Small icons (inline, no deps)
-// -----------------------------
-
-const PlaneIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="14" height="14" {...props}>
-    <path
-      d="M10.5 14.5 3 12l1.2-1.6L10 12l3.8-6.6c.3-.5 1-.8 1.6-.6.5.2.8.8.6 1.4L13.6 13l4.6.9c.6.1 1.1.7 1.1 1.3 0 .7-.6 1.2-1.3 1.2l-5.4-.4-2.6 4.5-1.7-.4.7-4.6-2.5-.5"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const TrainIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="14" height="14" {...props}>
-    <rect
-      x="6"
-      y="3.5"
-      width="12"
-      height="13"
-      rx="3"
-      stroke="currentColor"
-      strokeWidth="1.4"
-    />
-    <path d="M6 12.5h12" stroke="currentColor" strokeWidth="1.4" />
-    <circle cx="9.2" cy="14.5" r="0.9" fill="currentColor" />
-    <circle cx="14.8" cy="14.5" r="0.9" fill="currentColor" />
-    <path
-      d="M8.5 16.5 6 20.5M15.5 16.5l2.5 4"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const SearchIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="15" height="15" {...props}>
-    <circle
-      cx="10.5"
-      cy="10.5"
-      r="6.5"
-      stroke="currentColor"
-      strokeWidth="1.6"
-    />
-    <path
-      d="M19 19l-4-4"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const CompassIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="18" height="18" {...props}>
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-    <path
-      d="M15.5 8.5 13 13l-4.5 2.5L11 11l4.5-2.5Z"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const PlusIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="16" height="16" {...props}>
-    <path
-      d="M12 5v14M5 12h14"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const CopyIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="13" height="13" {...props}>
-    <rect
-      x="8.5"
-      y="8.5"
-      width="11"
-      height="11"
-      rx="2"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M15.5 8.5V6.5A2 2 0 0 0 13.5 4.5h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-  </svg>
-);
-
-const CheckIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="13" height="13" {...props}>
-    <path
-      d="M5 12.5l4.5 4.5L19 7"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const TrashIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" width="13" height="13" {...props}>
-    <path
-      d="M5 7h14M9.5 7V5.2c0-.66.54-1.2 1.2-1.2h2.6c.66 0 1.2.54 1.2 1.2V7M7 7l.7 12.1c.05.9.8 1.6 1.7 1.6h5.2c.9 0 1.65-.7 1.7-1.6L17 7"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M10.2 10.5v6M13.8 10.5v6"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
 
 // -----------------------------
 // Helpers
@@ -238,24 +118,15 @@ const planTimestamp = (plan) => {
   return Number.isNaN(t) ? Infinity : t;
 };
 
-const isPast = (plan) => planTimestamp(plan) < Date.now() - 3 * 60 * 60 * 1000; // 3hr grace window
+// A plan counts as "over" once its travel date/time has passed.
+const isPast = (plan) => planTimestamp(plan) < Date.now();
 
-// Copy text to the clipboard, with a fallback for browsers/contexts
-// where navigator.clipboard isn't available (e.g. non-HTTPS dev servers).
-const copyText = async (text) => {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.focus();
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
+// Builds a wa.me deep link for a 10-digit Indian mobile number.
+// The raw number is never shown in the UI, only used to build this link.
+const whatsappLink = (contact) => {
+  const digits = (contact || "").replace(/\D/g, "");
+  if (digits.length !== 10) return null;
+  return `https://wa.me/91${digits}`;
 };
 
 const NavigationHelp = () => {
@@ -270,7 +141,6 @@ const NavigationHelp = () => {
 
   const [search, setSearch] = useState("");
   const [sortAsap, setSortAsap] = useState(true);
-  const [copiedId, setCopiedId] = useState(null);
 
   const [newPlan, setNewPlan] = useState({
     name: "",
@@ -280,6 +150,7 @@ const NavigationHelp = () => {
     time: "",
     contact: "",
   });
+  const [contactError, setContactError] = useState("");
 
   // -----------------------------
   // Load Plans
@@ -287,6 +158,16 @@ const NavigationHelp = () => {
 
   useEffect(() => {
     fetchPlans();
+  }, []);
+
+  // Periodically sweep out any plan whose date/time has already passed,
+  // both from the UI and from the backend, so the list never shows stale
+  // rides. Checked once a minute.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      removeExpiredPlans();
+    }, 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchPlans = async () => {
@@ -302,6 +183,21 @@ const NavigationHelp = () => {
     }
   };
 
+  const removeExpiredPlans = () => {
+    setTravelPlans((prev) => {
+      const expired = prev.filter((p) => isPast(p));
+      if (expired.length === 0) return prev;
+
+      expired.forEach((p) => {
+        deleteCabShare(p._id).catch((err) =>
+          console.error("Failed to auto-remove expired plan", err),
+        );
+      });
+
+      return prev.filter((p) => !isPast(p));
+    });
+  };
+
   // -----------------------------
   // Form
   // -----------------------------
@@ -311,8 +207,20 @@ const NavigationHelp = () => {
     setNewPlan((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleContactChange = (e) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setNewPlan((prev) => ({ ...prev, contact: digits }));
+    if (contactError) setContactError("");
+  };
+
   const handleAddPlan = async (e) => {
     e.preventDefault();
+
+    if (!/^\d{10}$/.test(newPlan.contact)) {
+      setContactError("Enter a valid 10-digit mobile number.");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -368,23 +276,6 @@ const NavigationHelp = () => {
   };
 
   // -----------------------------
-  // Copy contact
-  // -----------------------------
-
-  const handleCopyContact = async (plan) => {
-    if (!plan.contact) return;
-    try {
-      await copyText(plan.contact);
-      setCopiedId(plan._id);
-      setTimeout(() => {
-        setCopiedId((current) => (current === plan._id ? null : current));
-      }, 1500);
-    } catch (err) {
-      console.error("Failed to copy contact", err);
-    }
-  };
-
-  // -----------------------------
   // Search + sort
   // -----------------------------
 
@@ -392,6 +283,7 @@ const NavigationHelp = () => {
     const term = search.trim().toLowerCase();
 
     let list = travelPlans.filter((plan) => {
+      if (isPast(plan)) return false;
       if (!term) return true;
       return (
         plan.to?.toLowerCase().includes(term) ||
@@ -552,22 +444,23 @@ const NavigationHelp = () => {
       flex-shrink: 0;
     }
 
-    .copy-btn {
+    .whatsapp-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.35rem;
       font-size: 0.68rem;
-      padding: 0.3rem 0.55rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
       border-radius: 0.5rem;
-      border: 1px solid rgba(148,197,210,0.25);
-      background: rgba(148,197,210,0.08);
-      color: #94c5d2;
+      border: 1px solid rgba(37,211,102,0.4);
+      background: rgba(37,211,102,0.14);
+      color: #6fe08c;
       cursor: pointer;
+      text-decoration: none;
     }
-    .copy-btn.copied {
-      background: rgba(95,182,201,0.25);
-      border-color: rgba(95,182,201,0.5);
-      color: #a9e4ee;
+    .whatsapp-btn:hover {
+      background: rgba(37,211,102,0.24);
+      color: #8ff0a6;
     }
 
     .delete-btn {
@@ -594,7 +487,7 @@ const NavigationHelp = () => {
 
         <div className="info-banner text-left mb-6">
           <span className="mt-0.5 text-amber-300">
-            <CompassIcon />
+            <FaCompass className="text-lg" />
           </span>
           <div>
             <p className="mb-1 text-xs font-semibold tracking-wide uppercase mono text-amber-300/90">
@@ -606,7 +499,7 @@ const NavigationHelp = () => {
               rel="noopener noreferrer"
               className="text-sm font-medium text-amber-200 hover:text-amber-100 hover:underline"
             >
-              Official IITG Travel & Navigation Guide ↗
+              <strong>Official IITG Travel & Navigation Guide ↗</strong>
             </a>
             <p className="mt-1 text-sm text-slate-300/80">
               Institute buses also run regularly from Panbazar, near Guwahati
@@ -660,7 +553,7 @@ const NavigationHelp = () => {
               className="panel-icon"
               style={{ background: "rgba(95,182,201,0.15)", color: "#8fd3e0" }}
             >
-              <PlusIcon />
+              <FaPlus className="text-sm" />
             </span>
             <h2 className="text-xl font-semibold display">Post a Cab Share</h2>
           </div>
@@ -755,18 +648,33 @@ const NavigationHelp = () => {
 
             <div className="col-span-2">
               <label className="field-label" htmlFor="contact">
-                Contact
+                WhatsApp number
               </label>
               <input
                 id="contact"
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 name="contact"
-                placeholder="Phone / Instagram"
+                placeholder="10-digit mobile number"
                 value={newPlan.contact}
-                onChange={handleInputChange}
+                onChange={handleContactChange}
+                maxLength={10}
+                pattern="\d{10}"
                 className="w-full p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
                 required
+                aria-invalid={Boolean(contactError)}
+                aria-describedby={contactError ? "contact-error" : undefined}
               />
+              {contactError ? (
+                <p id="contact-error" className="mt-1 text-xs text-red-300">
+                  {contactError}
+                </p>
+              ) : (
+                <p className="mt-1 text-xs text-slate-500">
+                  Only used to generate a WhatsApp link — it won't be shown
+                  publicly.
+                </p>
+              )}
             </div>
 
             <button
@@ -793,7 +701,7 @@ const NavigationHelp = () => {
               className="panel-icon"
               style={{ background: "rgba(232,163,61,0.15)", color: "#f0c374" }}
             >
-              <SearchIcon width="15" height="15" />
+              <FaSearch className="text-sm" />
             </span>
             <h2 className="text-xl font-semibold display">Find a Ride</h2>
             <span className="ml-auto text-xs text-slate-500 mono">
@@ -807,7 +715,7 @@ const NavigationHelp = () => {
 
           <div className="flex items-center gap-2 mb-4">
             <div className="search-wrap flex-1">
-              <SearchIcon />
+              <FaSearch className="text-sm" />
               <input
                 type="text"
                 value={search}
@@ -848,18 +756,14 @@ const NavigationHelp = () => {
             <div className="space-y-3 max-h-[34rem] overflow-y-auto pr-1">
               {visiblePlans.map((plan) => {
                 const kind = sourceKind(plan.from);
-                const past = isPast(plan);
-                const copied = copiedId === plan._id;
                 const deleting = deletingId === plan._id;
+                const waLink = whatsappLink(plan.contact);
 
                 return (
                   <div
                     key={plan._id}
                     className="plan-card p-4 rounded-xl border-l-4 bg-slate-800/70"
-                    style={{
-                      borderLeftColor: past ? "#4b5563" : "#5fb6c9",
-                      opacity: past ? 0.55 : 1,
-                    }}
+                    style={{ borderLeftColor: "#5fb6c9" }}
                   >
                     <div className="flex items-center justify-between gap-4">
                       <h4 className="font-semibold text-cyan-200 flex items-center gap-2">
@@ -877,40 +781,45 @@ const NavigationHelp = () => {
 
                     <p className="mt-2 text-sm text-slate-300 flex items-center gap-1.5">
                       <span className="inline-flex items-center gap-1 text-cyan-300/80">
-                        {kind === "air" ? <PlaneIcon /> : <TrainIcon />}
+                        {kind === "air" ? (
+                          <FaPlane className="text-sm" />
+                        ) : (
+                          <FaTrain className="text-sm" />
+                        )}
                         {plan.from}
                       </span>
                       <span className="mx-1 text-cyan-400">→</span>
                       {plan.to}
                     </p>
 
-                    <div className="flex items-center justify-between gap-2 mt-2">
-                      <p className="text-xs text-slate-500 truncate">
-                        Contact/InstaId : {plan.contact}
-                      </p>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => handleCopyContact(plan)}
-                          className={`glow-btn copy-btn ${copied ? "copied" : ""}`}
-                          aria-label={`Copy contact for ${plan.name}`}
+                    <div className="flex items-center justify-end gap-2 mt-3">
+                      {waLink ? (
+                        <a
+                          href={waLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="glow-btn whatsapp-btn"
+                          aria-label={`Message ${plan.name} on WhatsApp`}
                         >
-                          {copied ? <CheckIcon /> : <CopyIcon />}
-                          {copied ? "Copied" : "Copy"}
-                        </button>
+                          <FaWhatsapp className="text-sm" />
+                          WhatsApp
+                        </a>
+                      ) : (
+                        <span className="text-xs text-slate-500 italic">
+                          No valid contact
+                        </span>
+                      )}
 
-                        <button
-                          type="button"
-                          onClick={() => handleDeletePlan(plan)}
-                          disabled={deleting}
-                          className="glow-btn delete-btn"
-                          aria-label={`Delete travel plan for ${plan.name}`}
-                        >
-                          <TrashIcon />
-                          {deleting ? "Deleting..." : "Delete"}
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePlan(plan)}
+                        disabled={deleting}
+                        className="glow-btn delete-btn"
+                        aria-label={`Delete travel plan for ${plan.name}`}
+                      >
+                        <FaTrash className="text-xs" />
+                        {deleting ? "Deleting..." : "Delete"}
+                      </button>
                     </div>
                   </div>
                 );
