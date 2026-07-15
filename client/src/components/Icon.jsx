@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 
-// Icon component for skills and links
-const Icon = ({ path, className = "w-6 h-6" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d={path} />
-  </svg>
-);
+const Icon = ({ path: IconComponent, className = "w-6 h-6" }) => {
+  if (!IconComponent) return null;
+
+  return <IconComponent className={className} />;
+};
 
 export default Icon;
