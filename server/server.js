@@ -13,7 +13,6 @@ connectDB();
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://daan-iitg.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
