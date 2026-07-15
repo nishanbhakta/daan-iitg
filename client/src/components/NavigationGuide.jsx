@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { createCabShare, getCabShares } from "../services/cabShareService";
+import {
+  createCabShare,
+  getCabShares,
+  deleteCabShare,
+} from "../services/cabShareService";
 
 // -----------------------------
 // Hostel List
@@ -161,6 +165,24 @@ const CheckIcon = (props) => (
   </svg>
 );
 
+const TrashIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" width="13" height="13" {...props}>
+    <path
+      d="M5 7h14M9.5 7V5.2c0-.66.54-1.2 1.2-1.2h2.6c.66 0 1.2.54 1.2 1.2V7M7 7l.7 12.1c.05.9.8 1.6 1.7 1.6h5.2c.9 0 1.65-.7 1.7-1.6L17 7"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M10.2 10.5v6M13.8 10.5v6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 // -----------------------------
 // Helpers
 // -----------------------------
@@ -187,6 +209,25 @@ const dayLabel = (dateStr) => {
     month: "short",
     day: "numeric",
   });
+};
+
+// Formats a 24hr "HH:MM" time string into 12hr format with AM/PM,
+// e.g. "14:05" -> "2:05 PM". Falls back to the raw value if it
+// doesn't look like a valid HH:MM string.
+const formatTime12hr = (timeStr) => {
+  if (!timeStr) return "";
+  const match = /^(\d{1,2}):(\d{2})/.exec(timeStr);
+  if (!match) return timeStr;
+
+  let hours = parseInt(match[1], 10);
+  const minutes = match[2];
+  if (Number.isNaN(hours)) return timeStr;
+
+  const period = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  if (hours === 0) hours = 12;
+
+  return `${hours}:${minutes} ${period}`;
 };
 
 const planTimestamp = (plan) => {
@@ -225,6 +266,7 @@ const NavigationHelp = () => {
   const [travelPlans, setTravelPlans] = useState([]);
   const [plansLoaded, setPlansLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   const [search, setSearch] = useState("");
   const [sortAsap, setSortAsap] = useState(true);
@@ -299,6 +341,29 @@ const NavigationHelp = () => {
       alert("Unable to post travel plan.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // -----------------------------
+  // Delete plan
+  // -----------------------------
+
+  const handleDeletePlan = async (plan) => {
+    if (!plan?._id) return;
+    const confirmed = window.confirm(
+      `Delete the travel plan for ${plan.name || "this rider"}?`,
+    );
+    if (!confirmed) return;
+
+    try {
+      setDeletingId(plan._id);
+      await deleteCabShare(plan._id);
+      setTravelPlans((prev) => prev.filter((p) => p._id !== plan._id));
+    } catch (err) {
+      console.error("Failed to delete plan", err);
+      alert("Unable to delete travel plan.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -504,6 +569,21 @@ const NavigationHelp = () => {
       border-color: rgba(95,182,201,0.5);
       color: #a9e4ee;
     }
+
+    .delete-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(220,120,120,0.3);
+      background: rgba(220,120,120,0.08);
+      color: #e79999;
+      cursor: pointer;
+    }
+    .delete-btn:hover { background: rgba(220,120,120,0.18); }
+    .delete-btn:disabled { opacity: 0.5; cursor: default; }
   `}</style>
 
       {/* ----------------- Hero ----------------- */}
@@ -770,6 +850,7 @@ const NavigationHelp = () => {
                 const kind = sourceKind(plan.from);
                 const past = isPast(plan);
                 const copied = copiedId === plan._id;
+                const deleting = deletingId === plan._id;
 
                 return (
                   <div
@@ -789,7 +870,8 @@ const NavigationHelp = () => {
                       </h4>
 
                       <span className="text-xs text-slate-400 shrink-0">
-                        {dayLabel(plan.travelDate)} • {plan.travelTime}
+                        {dayLabel(plan.travelDate)} •{" "}
+                        {formatTime12hr(plan.travelTime)}
                       </span>
                     </div>
 
@@ -804,18 +886,31 @@ const NavigationHelp = () => {
 
                     <div className="flex items-center justify-between gap-2 mt-2">
                       <p className="text-xs text-slate-500 truncate">
-                        Contact : {plan.contact}
+                        Contact/InstaId : {plan.contact}
                       </p>
 
-                      <button
-                        type="button"
-                        onClick={() => handleCopyContact(plan)}
-                        className={`glow-btn copy-btn shrink-0 ${copied ? "copied" : ""}`}
-                        aria-label={`Copy contact for ${plan.name}`}
-                      >
-                        {copied ? <CheckIcon /> : <CopyIcon />}
-                        {copied ? "Copied" : "Copy"}
-                      </button>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => handleCopyContact(plan)}
+                          className={`glow-btn copy-btn ${copied ? "copied" : ""}`}
+                          aria-label={`Copy contact for ${plan.name}`}
+                        >
+                          {copied ? <CheckIcon /> : <CopyIcon />}
+                          {copied ? "Copied" : "Copy"}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeletePlan(plan)}
+                          disabled={deleting}
+                          className="glow-btn delete-btn"
+                          aria-label={`Delete travel plan for ${plan.name}`}
+                        >
+                          <TrashIcon />
+                          {deleting ? "Deleting..." : "Delete"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
