@@ -85,7 +85,7 @@ export default function App() {
       },
       {
         rootMargin: "-50% 0px -50% 0px",
-      }
+      },
     );
 
     SECTION_IDS.forEach((id) => {
@@ -111,32 +111,21 @@ export default function App() {
 
   return (
     <div className="bg-gray-900 font-sans overflow-x-hidden">
+      {showAlert && <FreshersAlert onClose={() => setShowAlert(false)} />}
 
-      {showAlert && (
-        <FreshersAlert onClose={() => setShowAlert(false)} />
-      )}
-
-      <Header
-        activeSection={activeSection}
-        onNavClick={handleNavClick}
-      />
+      <Header activeSection={activeSection} onNavClick={handleNavClick} />
 
       <main>
         <Hero onNavClick={handleNavClick} />
 
-        <NavigationGuide />
-
         <About />
 
-        <ImportantNotices
-          onShowItems={() => setPage("itemsToBring")}
-        />
+        <ImportantNotices onShowItems={() => setPage("itemsToBring")} />
+        <NavigationGuide />
 
         <QuickLinks />
 
-        <Seniors
-          onShowAllSeniors={() => setPage("allSeniors")}
-        />
+        <Seniors onShowAllSeniors={() => setPage("allSeniors")} />
 
         <CampusMap />
 
