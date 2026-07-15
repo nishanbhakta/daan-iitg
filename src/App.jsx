@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import AllSeniorsPage from "./components/AllSeniorsPage";
 import ItemsToBring from "./components/ItemsToBring";
 import FreshersAlert from "./components/FreshersAlert";
+import NavigationGuide from "./components/NavigationGuide";
 
 const SECTION_IDS = [
   "home",
@@ -122,6 +123,8 @@ export default function App() {
 
       <main>
         <Hero onNavClick={handleNavClick} />
+
+        <NavigationGuide />
 
         <About />
 
