@@ -1,26 +1,20 @@
-const STORAGE_KEY = "cab-share-plans";
+import axios from "axios";
 
-export const loadTravelPlans = () => {
-  if (typeof window === "undefined") return [];
+const API = axios.create({
+  baseURL: "http://localhost:8000/api",
+});
 
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (!stored) return [];
-
-    const parsed = JSON.parse(stored);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
-    return [];
-  }
+export const createCabShare = async (data) => {
+  const response = await API.post("/cabshares", data);
+  return response.data;
 };
 
-export const saveTravelPlans = (plans) => {
-  if (typeof window === "undefined") return false;
+export const getCabShares = async () => {
+  const response = await API.get("/cabshares");
+  return response.data;
+};
 
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
-    return true;
-  } catch (error) {
-    return false;
-  }
+export const deleteCabShare = async (id) => {
+  const response = await API.delete(`/cabshares/${id}`);
+  return response.data;
 };

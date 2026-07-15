@@ -1,373 +1,403 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { loadTravelPlans, saveTravelPlans } from "../services/cabShareService";
+import React, { useState, useEffect } from "react";
+import { createCabShare, getCabShares } from "../services/cabShareService";
+
+// -----------------------------
+// Hostel List
+// -----------------------------
+
+const IITG_HOSTELS = [
+  "Barak",
+  "Brahmaputra",
+  "Dhansiri",
+  "Dibang",
+  "Dihing",
+  "Disang",
+  "Gaurang",
+  "Kameng",
+  "Kapili",
+  "Lohit",
+  "Manas",
+  "Siang",
+  "Subansiri",
+  "Umiam",
+];
+
+// -----------------------------
+// Pickup Points
+// -----------------------------
 
 const PICKUP_POINTS = {
-  "Airport (GAU)": "Lokpriya Gopinath Bordoloi Airport",
-  "Guwahati Station (GHY)": "Guwahati Railway Station",
-  "Kamakhya Station (KYQ)": "Kamakhya Railway Station",
+  "Airport (GAU)": {
+    label: "Lokpriya Gopinath Bordoloi Airport",
+    code: "GAU",
+    lat: 26.1061,
+    lng: 91.5859,
+  },
+
+  "Guwahati Station (GHY)": {
+    label: "Guwahati Railway Station",
+    code: "GHY",
+    lat: 26.1614,
+    lng: 91.7362,
+  },
+
+  "Kamakhya Station (KYQ)": {
+    label: "Kamakhya Railway Station",
+    code: "KYQ",
+    lat: 26.1517,
+    lng: 91.6425,
+  },
 };
 
-const initialForm = {
-  name: "",
-  date: "",
-  time: "",
-  source: "Airport (GAU)",
-  contact: "",
-};
+const NavigationHelp = () => {
+  // -----------------------------
+  // State
+  // -----------------------------
 
-const MY_PLANS_KEY = "iitg-cabshare-my-plan-ids";
-
-function loadMyPlanIds() {
-  try {
-    return JSON.parse(window.localStorage.getItem(MY_PLANS_KEY) || "[]");
-  } catch {
-    return [];
-  }
-}
-
-function rememberMyPlanId(id) {
-  try {
-    const ids = loadMyPlanIds();
-    window.localStorage.setItem(MY_PLANS_KEY, JSON.stringify([...ids, id]));
-  } catch {
-    // localStorage unavailable — the delete option just won't show, no crash.
-  }
-}
-
-function forgetMyPlanId(id) {
-  try {
-    const ids = loadMyPlanIds().filter((existing) => existing !== id);
-    window.localStorage.setItem(MY_PLANS_KEY, JSON.stringify(ids));
-  } catch {
-    // no-op
-  }
-}
-
-export default function NavigationGuide() {
   const [travelPlans, setTravelPlans] = useState([]);
   const [plansLoaded, setPlansLoaded] = useState(false);
-  const [saveError, setSaveError] = useState("");
-  const [newPlan, setNewPlan] = useState(initialForm);
-  const [myPlanIds, setMyPlanIds] = useState([]);
-  const [toast, setToast] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // Filters / sort for the plans list
-  const [search, setSearch] = useState("");
-  const [sourceFilter, setSourceFilter] = useState("All");
-  const [sortDir, setSortDir] = useState("asc");
+  const [newPlan, setNewPlan] = useState({
+    name: "",
+    source: "Airport (GAU)",
+    hostel: IITG_HOSTELS[0],
+    date: "",
+    time: "",
+    contact: "",
+  });
+
+  // -----------------------------
+  // Load Plans
+  // -----------------------------
 
   useEffect(() => {
-    const plans = loadTravelPlans();
-    setTravelPlans(plans);
-    setMyPlanIds(loadMyPlanIds());
-    setPlansLoaded(true);
+    fetchPlans();
   }, []);
 
-  useEffect(() => {
-    if (!toast) return;
-    const timer = setTimeout(() => setToast(null), 2600);
-    return () => clearTimeout(timer);
-  }, [toast]);
+  const fetchPlans = async () => {
+    try {
+      setPlansLoaded(false);
+
+      const response = await getCabShares();
+
+      // Supports both:
+      // res.json(data)
+      // res.json({ success:true,data })
+
+      const plans = Array.isArray(response) ? response : response.data || [];
+
+      setTravelPlans(plans);
+    } catch (err) {
+      console.error("Failed to fetch plans", err);
+    } finally {
+      setPlansLoaded(true);
+    }
+  };
+
+  // -----------------------------
+  // Form
+  // -----------------------------
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewPlan((prev) => ({ ...prev, [name]: value }));
+
+    setNewPlan((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleAddPlan = (e) => {
+  // -----------------------------
+  // Submit
+  // -----------------------------
+
+  const handleAddPlan = async (e) => {
     e.preventDefault();
-    if (!newPlan.name || !newPlan.date) return;
 
-    const nextPlan = { ...newPlan, id: Date.now() };
-    const updatedPlans = [...travelPlans, nextPlan];
-    setTravelPlans(updatedPlans);
-
-    const saved = saveTravelPlans(updatedPlans);
-    if (saved) {
-      setSaveError("");
-      rememberMyPlanId(nextPlan.id);
-      setMyPlanIds((prev) => [...prev, nextPlan.id]);
-      setToast({ type: "success", message: "Plan posted — batchmates can now see it." });
-    } else {
-      setSaveError("Couldn't save — your plan may not persist after a refresh.");
-    }
-
-    setNewPlan(initialForm);
-  };
-
-  const handleDeletePlan = (id) => {
-    const updatedPlans = travelPlans.filter((plan) => plan.id !== id);
-    setTravelPlans(updatedPlans);
-    const saved = saveTravelPlans(updatedPlans);
-    if (saved) {
-      forgetMyPlanId(id);
-      setMyPlanIds((prev) => prev.filter((existing) => existing !== id));
-      setToast({ type: "success", message: "Plan withdrawn." });
-    } else {
-      setSaveError("Couldn't remove that plan — try again.");
-    }
-  };
-
-  const handleCopyContact = async (contact) => {
     try {
-      await navigator.clipboard.writeText(contact);
-      setToast({ type: "success", message: "Contact copied to clipboard." });
-    } catch {
-      setToast({ type: "error", message: "Couldn't copy — copy it manually instead." });
+      setLoading(true);
+
+      const payload = {
+        name: newPlan.name,
+        from: newPlan.source,
+        to: `${newPlan.hostel} Hostel`,
+        travelDate: newPlan.date,
+        travelTime: newPlan.time,
+        contact: newPlan.contact,
+      };
+
+      await createCabShare(payload);
+
+      await fetchPlans();
+
+      setNewPlan({
+        name: "",
+        source: "Airport (GAU)",
+        hostel: IITG_HOSTELS[0],
+        date: "",
+        time: "",
+        contact: "",
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Unable to post travel plan.");
+    } finally {
+      setLoading(false);
     }
   };
-
-  // Plans that share the exact date + source currently in the form —
-  // i.e. people the person filling the form could actually ride with.
-  const liveMatchIds = useMemo(() => {
-    if (!newPlan.date) return new Set();
-    return new Set(
-      travelPlans
-        .filter(
-          (plan) => plan.date === newPlan.date && plan.source === newPlan.source
-        )
-        .map((plan) => plan.id)
-    );
-  }, [travelPlans, newPlan.date, newPlan.source]);
-
-  const visiblePlans = useMemo(() => {
-    const query = search.trim().toLowerCase();
-
-    const filtered = travelPlans.filter((plan) => {
-      const matchesSearch =
-        !query ||
-        plan.name.toLowerCase().includes(query) ||
-        plan.contact.toLowerCase().includes(query);
-      const matchesSource = sourceFilter === "All" || plan.source === sourceFilter;
-      return matchesSearch && matchesSource;
-    });
-
-    return filtered.sort((a, b) => {
-      const aKey = `${a.date}T${a.time || "00:00"}`;
-      const bKey = `${b.date}T${b.time || "00:00"}`;
-      return sortDir === "asc" ? aKey.localeCompare(bKey) : bKey.localeCompare(aKey);
-    });
-  }, [travelPlans, search, sourceFilter, sortDir]);
-
-  const stats = useMemo(() => {
-    const bySource = travelPlans.reduce((acc, plan) => {
-      acc[plan.source] = (acc[plan.source] || 0) + 1;
-      return acc;
-    }, {});
-
-    return {
-      total: travelPlans.length,
-      topSource: Object.entries(bySource).sort((a, b) => b[1] - a[1])[0]?.[0] || "-",
-    };
-  }, [travelPlans]);
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-5xl flex-col gap-8">
-        <div className="text-center">
-          <p className="mb-3 text-sm uppercase tracking-[0.25em] text-cyan-300">
-            IIT Guwahati • Arrival Guide
-          </p>
-          <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-            Landing around the same time? Share the ride.
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-400 sm:text-base">
-            Post your arrival details and find batchmates on the same route.
-          </p>
-        </div>
+    <div className="route-root">
+      <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/30">
-            <h2 className="text-xl font-semibold text-cyan-200">Share a cab</h2>
-            <p className="mt-2 text-sm text-slate-400">
-              Add your arrival plan so others can connect with you.
-            </p>
+    .route-root {
+      min-height: 100vh;
+      padding: 3rem 1.25rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 50% at 15% 0%, rgba(59,130,166,0.25), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 15%, rgba(232,163,61,0.12), transparent 55%),
+        linear-gradient(180deg, #0a1826 0%, #0b1f2f 45%, #0a1a24 100%);
+      font-family: 'Inter', sans-serif;
+      color: #eae6da;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-            {liveMatchIds.size > 0 && (
-              <div className="mt-4 rounded-lg border border-cyan-700/50 bg-cyan-950/40 px-3 py-2 text-sm text-cyan-200">
-                {liveMatchIds.size} {liveMatchIds.size === 1 ? "person is" : "people are"}{" "}
-                already headed the same way — check the list before you post.
-              </div>
-            )}
+    .route-root::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(234,230,218,0.25) 0, transparent 100%),
+        radial-gradient(1px 1px at 70% 65%, rgba(234,230,218,0.18) 0, transparent 100%),
+        radial-gradient(1.5px 1.5px at 85% 20%, rgba(234,230,218,0.2) 0, transparent 100%),
+        radial-gradient(1px 1px at 45% 80%, rgba(234,230,218,0.15) 0, transparent 100%);
+      pointer-events: none;
+    }
 
-            <form onSubmit={handleAddPlan} className="mt-6 grid gap-3 sm:grid-cols-2">
-              <input
-                name="name"
-                value={newPlan.name}
-                onChange={handleInputChange}
-                placeholder="Your name"
-                className="sm:col-span-2 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-                required
-              />
-              <select
-                name="source"
-                value={newPlan.source}
-                onChange={handleInputChange}
-                className="sm:col-span-2 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-              >
-                {Object.keys(PICKUP_POINTS).map((point) => (
-                  <option key={point} value={point}>
-                    {point}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="date"
-                name="date"
-                value={newPlan.date}
-                onChange={handleInputChange}
-                className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-                required
-              />
-              <input
-                type="time"
-                name="time"
-                value={newPlan.time}
-                onChange={handleInputChange}
-                className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-                required
-              />
-              <input
-                name="contact"
-                value={newPlan.contact}
-                onChange={handleInputChange}
-                placeholder="Contact (phone / Insta)"
-                className="sm:col-span-2 rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-                required
-              />
-              <button
-                type="submit"
-                className="sm:col-span-2 rounded-lg bg-cyan-400 px-4 py-2.5 font-semibold text-slate-900 transition hover:bg-cyan-300 hover:shadow-lg hover:shadow-cyan-500/20 active:scale-[0.99]"
-              >
-                Post travel plan
-              </button>
-            </form>
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
 
-            {saveError ? <p className="mt-3 text-sm text-amber-400">{saveError}</p> : null}
-          </section>
+    .display {
+      font-family: 'Fraunces', serif;
+    }
 
-          <section className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/30">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-cyan-200">Active plans</h2>
-              <span className="rounded-full bg-slate-800 px-3 py-1 text-sm text-slate-300">
-                {stats.total}
-              </span>
-            </div>
-            <p className="mt-2 text-sm text-slate-400">
-              Most common pickup: <span className="text-cyan-300">{stats.topSource}</span>
-            </p>
+    .fade-up {
+      animation: fadeUp .7s cubic-bezier(.16,1,.3,1) both;
+    }
 
-            {/* Search + filters */}
-            <div className="mt-4 flex flex-col gap-2">
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name or contact"
-                className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40"
-              />
-              <div className="flex flex-wrap gap-2">
+    @keyframes fadeUp {
+      from {
+        opacity:0;
+        transform:translateY(14px);
+      }
+      to {
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    .plan-card{
+      animation:fadeUp .5s ease both;
+    }
+
+    .glow-btn{
+      transition:.2s;
+    }
+
+    .glow-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    select,input{
+      color-scheme:dark;
+    }
+  `}</style>
+
+      <div className="max-w-4xl mx-auto mb-12 text-center fade-up">
+        <p className="mb-3 text-xs tracking-[0.25em] uppercase mono text-cyan-300/70">
+          IIT Guwahati · Arrival Guide
+        </p>
+
+        <h1 className="display text-4xl sm:text-5xl font-semibold leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-slate-100 to-cyan-200">
+          Landing Around the Same Time? Share the Ride.
+        </h1>
+
+        <p className="max-w-xl mx-auto mt-4 text-slate-300/90">
+          Post your arrival details and find batchmates heading to the same
+          hostel — split a cab from the airport or station instead of travelling
+          alone.
+        </p>
+      </div>
+
+      <div className="max-w-2xl mx-auto">
+        <section
+          className="p-6 sm:p-8 border rounded-2xl fade-up"
+          style={{
+            background:
+              "linear-gradient(165deg, rgba(20,38,54,.85), rgba(12,24,36,.85))",
+            borderColor: "rgba(148,197,210,.15)",
+          }}
+        >
+          <h2 className="mb-1 text-2xl font-semibold display">Share a Cab</h2>
+
+          <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] mb-8">
+            <div className="space-y-6">
+              <p className="mb-4 text-sm text-slate-400">
+                Post your travel plan and connect with anyone arriving around
+                the same time.
+              </p>
+
+              <form onSubmit={handleAddPlan} className="grid grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={newPlan.name}
+                  onChange={handleInputChange}
+                  className="col-span-2 p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
+                  required
+                />
+
                 <select
-                  value={sourceFilter}
-                  onChange={(e) => setSourceFilter(e.target.value)}
-                  className="rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-xs text-slate-200"
+                  name="hostel"
+                  value={newPlan.hostel}
+                  onChange={handleInputChange}
+                  className="p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
                 >
-                  <option value="All">All pickup points</option>
+                  {IITG_HOSTELS.map((hostel) => (
+                    <option key={hostel} value={hostel}>
+                      {hostel}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  name="source"
+                  value={newPlan.source}
+                  onChange={handleInputChange}
+                  className="p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
+                >
                   {Object.keys(PICKUP_POINTS).map((point) => (
                     <option key={point} value={point}>
                       {point}
                     </option>
                   ))}
                 </select>
+
+                <input
+                  type="date"
+                  name="date"
+                  value={newPlan.date}
+                  onChange={handleInputChange}
+                  className="p-2.5 text-sm text-white bg-slate-800/80 border border-slate-600/50 rounded-lg"
+                  required
+                />
+
+                <input
+                  type="time"
+                  name="time"
+                  value={newPlan.time}
+                  onChange={handleInputChange}
+                  className="p-2.5 text-sm text-white bg-slate-800/80 border border-slate-600/50 rounded-lg"
+                  required
+                />
+
+                <input
+                  type="text"
+                  name="contact"
+                  placeholder="Phone / Instagram"
+                  value={newPlan.contact}
+                  onChange={handleInputChange}
+                  className="col-span-2 p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
+                  required
+                />
+
                 <button
-                  type="button"
-                  onClick={() => setSortDir((dir) => (dir === "asc" ? "desc" : "asc"))}
-                  className="ml-auto rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-xs text-slate-200 transition hover:border-cyan-600 hover:text-cyan-300"
+                  type="submit"
+                  disabled={loading}
+                  className="glow-btn col-span-2 py-2.5 rounded-lg font-semibold text-slate-900"
+                  style={{
+                    background: "linear-gradient(120deg,#5fb6c9,#8fd3e0)",
+                  }}
                 >
-                  Sort: {sortDir === "asc" ? "Soonest first ↑" : "Latest first ↓"}
+                  {loading ? "Posting..." : "Post Travel Plan"}
                 </button>
-              </div>
+              </form>
             </div>
 
-            {!plansLoaded ? (
-              <p className="mt-6 text-sm text-slate-500">Loading plans…</p>
-            ) : travelPlans.length === 0 ? (
-              <p className="mt-6 text-sm text-slate-500">No plans posted yet.</p>
-            ) : visiblePlans.length === 0 ? (
-              <p className="mt-6 text-sm text-slate-500">
-                Nothing matches those filters — try clearing the search.
-              </p>
-            ) : (
-              <div className="mt-6 space-y-3">
-                {visiblePlans.map((plan) => {
-                  const isMine = myPlanIds.includes(plan.id);
-                  const isLiveMatch = liveMatchIds.has(plan.id);
-                  return (
-                    <div
-                      key={plan.id}
-                      className={`rounded-xl border p-4 transition ${
-                        isLiveMatch
-                          ? "border-cyan-500/70 bg-cyan-950/30 ring-1 ring-cyan-500/30"
-                          : "border-slate-800 bg-slate-800/70 hover:border-slate-700"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="flex items-center gap-2 font-medium text-white">
-                          {plan.name}
-                          {isMine && (
-                            <span className="rounded-full bg-slate-700 px-2 py-0.5 text-[10px] uppercase tracking-wide text-slate-300">
-                              You
-                            </span>
-                          )}
-                        </span>
-                        <span className="text-xs text-slate-400">
-                          {plan.date} • {plan.time}
-                        </span>
-                      </div>
-                      <p className="mt-2 text-sm text-slate-300">
-                        Pickup: {plan.source}
-                      </p>
-                      <div className="mt-3 flex items-center justify-between gap-3">
-                        <p className="text-xs text-slate-500">{plan.contact}</p>
-                        <div className="flex shrink-0 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => handleCopyContact(plan.contact)}
-                            className="rounded-md border border-slate-700 px-2.5 py-1 text-xs text-slate-300 transition hover:border-cyan-600 hover:text-cyan-300"
-                          >
-                            Copy contact
-                          </button>
-                          {isMine && (
-                            <button
-                              type="button"
-                              onClick={() => handleDeletePlan(plan.id)}
-                              className="rounded-md border border-red-900/60 px-2.5 py-1 text-xs text-red-300 transition hover:border-red-600 hover:bg-red-950/40"
-                            >
-                              Withdraw
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-        </div>
-      </div>
+            <aside className="rounded-3xl border border-slate-700/60 bg-slate-950/60 p-5">
+              <h3 className="pb-2 mb-5 text-sm tracking-wide uppercase border-b mono text-cyan-300/70 border-slate-700/60">
+                Active Plans · {travelPlans.length}
+              </h3>
 
-      {/* Toast */}
-      {toast && (
-        <div
-          className={`fixed bottom-6 left-1/2 -translate-x-1/2 rounded-lg px-4 py-2.5 text-sm shadow-xl transition ${
-            toast.type === "error"
-              ? "bg-red-900/90 text-red-100"
-              : "bg-cyan-500/95 text-slate-900"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
+              {!plansLoaded ? (
+                <p className="text-sm text-slate-500">
+                  Loading travel plans...
+                </p>
+              ) : travelPlans.length === 0 ? (
+                <p className="text-sm text-slate-500">
+                  No travel plans available. Be the first to post one.
+                </p>
+              ) : (
+                <div className="space-y-3 max-h-[38rem] overflow-y-auto pr-1">
+                  {travelPlans.map((plan) => (
+                    <div
+                      key={plan._id}
+                      className="plan-card p-4 rounded-xl border-l-4 bg-slate-800/70"
+                      style={{
+                        borderLeftColor: "#5fb6c9",
+                      }}
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <h4 className="font-semibold text-cyan-200">
+                          {plan.name}
+                        </h4>
+
+                        <span className="text-xs text-slate-400">
+                          {new Date(plan.travelDate).toLocaleDateString()} •{" "}
+                          {plan.travelTime}
+                        </span>
+                      </div>
+
+                      <p className="mt-2 text-sm text-slate-300">
+                        {plan.from}
+                        <span className="mx-2 text-cyan-400">→</span>
+                        {plan.to}
+                      </p>
+
+                      <p className="mt-2 text-xs text-slate-500">
+                        Contact : {plan.contact}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </aside>
+          </div>
+
+          <div className="pt-5 mt-6 border-t border-slate-700/60">
+            <a
+              href="https://www.iitg.ac.in/phy/travelinfo.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-cyan-300 hover:text-cyan-200 hover:underline"
+            >
+              Official IITG Travel & Navigation Guide ↗
+            </a>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Institute buses also run regularly from Panbazar, near Guwahati
+              Railway Station.
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   );
-}
+};
+
+export default NavigationHelp;
