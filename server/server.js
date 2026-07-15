@@ -12,11 +12,9 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://daan-iitg.vercel.app"],
-    credentials: true,
-  }),
+    origin: "*",
+  })
 );
-
 app.use(express.json());
 
 app.use("/api", cabShareRoutes);
