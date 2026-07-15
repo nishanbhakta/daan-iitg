@@ -3,7 +3,6 @@ import axios from "axios";
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "http://localhost:8000/api",
 });
-
 export const createCabShare = async (data) => {
   const response = await API.post("/cabshares", data);
   return response.data;
