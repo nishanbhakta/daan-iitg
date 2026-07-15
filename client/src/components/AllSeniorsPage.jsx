@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import Icon from "./Icon";
-import ICONS from "./../constants/icons";
+import ICONS from "../constants/icons";
 import allSeniorsData from "../data/seniorsData";
 import { getYearOfStudy } from "../utils/helpers";
 import InitialsAvatar from "./InitialsAvatar";
