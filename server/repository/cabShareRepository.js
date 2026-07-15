@@ -1,4 +1,4 @@
-const CabShare = require("../models/cabShareModel");
+const CabShare = require("../models/CabShareModel");
 
 const createCabShare = async (cabShareData) => {
   const cabShare = new CabShare(cabShareData);
