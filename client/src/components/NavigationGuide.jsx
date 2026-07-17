@@ -12,6 +12,7 @@ import {
   FaPlus,
   FaWhatsapp,
   FaTrash,
+  FaUsers,
 } from "react-icons/fa";
 
 // -----------------------------
@@ -63,6 +64,12 @@ const PICKUP_POINTS = {
   },
 };
 
+const PICKUP_FILTERS = [
+  { value: "all", label: "All pickups" },
+  { value: "air", label: "Airport only" },
+  { value: "rail", label: "Rail only" },
+];
+
 // -----------------------------
 // Helpers
 // -----------------------------
@@ -101,11 +108,31 @@ const planTimestamp = (plan) => {
 
 const isPast = (plan) => planTimestamp(plan) < Date.now();
 
+// Human-friendly "in 2h 15m" style countdown, so riders can tell at a
+// glance how urgent a plan is without doing date math themselves.
+const timeUntil = (plan) => {
+  const diffMs = planTimestamp(plan) - Date.now();
+  if (!Number.isFinite(diffMs) || diffMs <= 0) return null;
+
+  const totalMinutes = Math.round(diffMs / 60000);
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+
+  if (days > 0) return `in ${days}d ${hours}h`;
+  if (hours > 0) return `in ${hours}h ${minutes}m`;
+  return `in ${minutes}m`;
+};
+
 const whatsappLink = (contact) => {
   const digits = (contact || "").replace(/\D/g, "");
   if (digits.length !== 10) return null;
   return `https://wa.me/91${digits}`;
 };
+
+// How often we quietly re-check the backend so plans that have already
+// departed drop off the list on their own, without the user refreshing.
+const REFRESH_INTERVAL_MS = 60_000;
 
 const NavigationHelp = () => {
   // -----------------------------
@@ -118,7 +145,7 @@ const NavigationHelp = () => {
   const [deletingId, setDeletingId] = useState(null);
 
   const [search, setSearch] = useState("");
-  const [sortAsap, setSortAsap] = useState(true);
+  const [pickupFilter, setPickupFilter] = useState("all");
 
   const [newPlan, setNewPlan] = useState({
     name: "",
@@ -127,6 +154,7 @@ const NavigationHelp = () => {
     date: "",
     time: "",
     contact: "",
+    seats: 1,
   });
   const [contactError, setContactError] = useState("");
 
@@ -136,15 +164,16 @@ const NavigationHelp = () => {
 
   useEffect(() => {
     fetchPlans();
-  }, []);
 
-  // Periodically sweep out any plan whose date/time has already passed,
-  // both from the UI and from the backend, so the list never shows stale
-  // rides. Checked once a minute.
+    // Periodically sweep out any plan whose date/time has already passed,
+    // both from the UI and by re-fetching from the backend, so the list
+    // never shows stale rides. Checked once a minute.
+    const interval = setInterval(fetchPlans, REFRESH_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchPlans = async () => {
     try {
-      setPlansLoaded(false);
       const response = await getCabShares();
       const plans = Array.isArray(response) ? response : response.data || [];
       setTravelPlans(plans);
@@ -162,6 +191,12 @@ const NavigationHelp = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewPlan((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSeatsChange = (e) => {
+    const raw = Number(e.target.value);
+    const clamped = Number.isFinite(raw) ? Math.min(4, Math.max(1, raw)) : 1;
+    setNewPlan((prev) => ({ ...prev, seats: clamped }));
   };
 
   const handleContactChange = (e) => {
@@ -187,6 +222,7 @@ const NavigationHelp = () => {
         to: `${newPlan.hostel} Hostel`,
         travelDateTime: `${newPlan.date}T${newPlan.time}:00`,
         contact: newPlan.contact,
+        groupSize: newPlan.seats,
       };
 
       await createCabShare(payload);
@@ -199,6 +235,7 @@ const NavigationHelp = () => {
         date: "",
         time: "",
         contact: "",
+        seats: 1,
       });
     } catch (err) {
       console.error(err);
@@ -232,14 +269,19 @@ const NavigationHelp = () => {
   };
 
   // -----------------------------
-  // Search + sort
+  // Search + filter + sort
   // -----------------------------
+  // Plans always sort soonest-first — that's the only order that makes
+  // sense for "who can I still catch a cab with", so there's no toggle.
 
   const visiblePlans = useMemo(() => {
     const term = search.trim().toLowerCase();
 
-    let list = travelPlans.filter((plan) => {
+    const list = travelPlans.filter((plan) => {
       if (isPast(plan)) return false;
+      if (pickupFilter !== "all" && sourceKind(plan.from) !== pickupFilter) {
+        return false;
+      }
       if (!term) return true;
       return (
         plan.to?.toLowerCase().includes(term) ||
@@ -248,17 +290,10 @@ const NavigationHelp = () => {
       );
     });
 
-    if (sortAsap) {
-      list = [...list].sort((a, b) => planTimestamp(a) - planTimestamp(b));
-    }
+    return [...list].sort((a, b) => planTimestamp(a) - planTimestamp(b));
+  }, [travelPlans, search, pickupFilter]);
 
-    return list;
-  }, [travelPlans, search, sortAsap]);
-
-  const nextPlanId =
-    sortAsap && visiblePlans.length && !isPast(visiblePlans[0])
-      ? visiblePlans[0]._id
-      : null;
+  const nextPlanId = visiblePlans.length ? visiblePlans[0]._id : null;
 
   return (
     <div className="route-root">
@@ -359,6 +394,19 @@ const NavigationHelp = () => {
       color: #0a1a24;
       background: linear-gradient(120deg,#e8a33d,#f0c374);
       padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .seats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: #94c5d2;
+      background: rgba(148,197,210,0.1);
+      border: 1px solid rgba(148,197,210,0.25);
+      padding: 0.1rem 0.45rem;
       border-radius: 999px;
     }
 
@@ -526,9 +574,10 @@ const NavigationHelp = () => {
                 id="name"
                 type="text"
                 name="name"
-                placeholder="e.g. Priya Sharma"
+                placeholder="e.g. Laxmi Prashad"
                 value={newPlan.name}
                 onChange={handleInputChange}
+                maxLength={60}
                 className="w-full p-2.5 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
                 required
               />
@@ -582,6 +631,7 @@ const NavigationHelp = () => {
                 name="date"
                 value={newPlan.date}
                 onChange={handleInputChange}
+                min={new Date().toISOString().slice(0, 10)}
                 className="w-full p-2.5 text-sm text-white bg-slate-800/80 border border-slate-600/50 rounded-lg"
                 required
               />
@@ -602,7 +652,23 @@ const NavigationHelp = () => {
               />
             </div>
 
-            <div className="col-span-2">
+            <div>
+              <label className="field-label" htmlFor="seats">
+                Group size (incl. you)
+              </label>
+              <input
+                id="seats"
+                type="number"
+                name="seats"
+                min={1}
+                max={4}
+                value={newPlan.seats}
+                onChange={handleSeatsChange}
+                className="w-full p-2.5 text-sm text-white bg-slate-800/80 border border-slate-600/50 rounded-lg"
+              />
+            </div>
+
+            <div>
               <label className="field-label" htmlFor="contact">
                 WhatsApp number
               </label>
@@ -626,10 +692,7 @@ const NavigationHelp = () => {
                   {contactError}
                 </p>
               ) : (
-                <p className="mt-1 text-xs text-slate-500">
-                  Only used to generate a WhatsApp link — it won't be shown
-                  publicly.
-                </p>
+                <p className="mt-1 text-xs text-slate-500">.</p>
               )}
             </div>
 
@@ -666,7 +729,7 @@ const NavigationHelp = () => {
             </span>
           </div>
           <p className="mb-5 text-sm text-slate-400">
-            Search by hostel, or sort to see who's leaving soonest.
+            Sorted by soonest departure. Search or filter to narrow it down.
           </p>
 
           <div className="flex items-center gap-2 mb-4">
@@ -676,28 +739,24 @@ const NavigationHelp = () => {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by hostel..."
+                placeholder="Search by hostel or name..."
                 className="w-full p-2 text-sm bg-slate-800/80 border border-slate-600/50 rounded-lg"
-                aria-label="Search by hostel name"
+                aria-label="Search by hostel or name"
               />
             </div>
 
-            <button
-              type="button"
-              onClick={() => setSortAsap((v) => !v)}
-              aria-pressed={sortAsap}
-              className="glow-btn shrink-0 flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-lg mono"
-              style={{
-                background: sortAsap
-                  ? "linear-gradient(120deg,#e8a33d,#f0c374)"
-                  : "rgba(148,197,210,0.12)",
-                color: sortAsap ? "#0a1a24" : "#94c5d2",
-                border: sortAsap ? "none" : "1px solid rgba(148,197,210,0.3)",
-              }}
-              title="Sort by soonest departure"
+            <select
+              value={pickupFilter}
+              onChange={(e) => setPickupFilter(e.target.value)}
+              className="shrink-0 p-2 text-xs bg-slate-800/80 border border-slate-600/50 rounded-lg mono"
+              aria-label="Filter by pickup point"
             >
-              ASAP {sortAsap ? "✓" : ""}
-            </button>
+              {PICKUP_FILTERS.map((f) => (
+                <option key={f.value} value={f.value}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {!plansLoaded ? (
@@ -714,6 +773,7 @@ const NavigationHelp = () => {
                 const kind = sourceKind(plan.from);
                 const deleting = deletingId === plan._id;
                 const waLink = whatsappLink(plan.contact);
+                const countdown = timeUntil(plan);
 
                 return (
                   <div
@@ -729,12 +789,17 @@ const NavigationHelp = () => {
                         )}
                       </h4>
 
-                      <span className="text-xs text-slate-400 shrink-0">
+                      <span className="text-xs text-slate-400 shrink-0 text-right">
                         {dayLabel(plan.travelDateTime)} •{" "}
                         {new Date(plan.travelDateTime).toLocaleTimeString([], {
                           hour: "numeric",
                           minute: "2-digit",
                         })}
+                        {countdown && (
+                          <span className="block text-cyan-300/70">
+                            {countdown}
+                          </span>
+                        )}
                       </span>
                     </div>
 
@@ -751,34 +816,44 @@ const NavigationHelp = () => {
                       {plan.to}
                     </p>
 
-                    <div className="flex items-center justify-end gap-2 mt-3">
-                      {waLink ? (
-                        <a
-                          href={waLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="glow-btn whatsapp-btn"
-                          aria-label={`Message ${plan.name} on WhatsApp`}
-                        >
-                          <FaWhatsapp className="text-sm" />
-                          WhatsApp
-                        </a>
-                      ) : (
-                        <span className="text-xs text-slate-500 italic">
-                          No valid contact
+                    <div className="flex items-center justify-between gap-2 mt-3">
+                      {plan.groupSize >= 1 && (
+                        <span className="seats-badge">
+                          <FaUsers className="text-xs" />
+                          {plan.groupSize}{" "}
+                          {plan.groupSize === 1 ? "Person" : "People"}
                         </span>
                       )}
 
-                      <button
-                        type="button"
-                        onClick={() => handleDeletePlan(plan)}
-                        disabled={deleting}
-                        className="glow-btn delete-btn"
-                        aria-label={`Delete travel plan for ${plan.name}`}
-                      >
-                        <FaTrash className="text-xs" />
-                        {deleting ? "Deleting..." : "Delete"}
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {waLink ? (
+                          <a
+                            href={waLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="glow-btn whatsapp-btn"
+                            aria-label={`Message ${plan.name} on WhatsApp`}
+                          >
+                            <FaWhatsapp className="text-sm" />
+                            WhatsApp
+                          </a>
+                        ) : (
+                          <span className="text-xs text-slate-500 italic">
+                            No valid contact
+                          </span>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeletePlan(plan)}
+                          disabled={deleting}
+                          className="glow-btn delete-btn"
+                          aria-label={`Delete travel plan for ${plan.name}`}
+                        >
+                          <FaTrash className="text-xs" />
+                          {deleting ? "Deleting..." : "Delete"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

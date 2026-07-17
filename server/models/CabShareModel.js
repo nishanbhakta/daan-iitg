@@ -25,6 +25,14 @@ const CabShareSchema = new mongoose.Schema(
       required: true,
     },
 
+    groupSize: {
+      type: Number,
+      required: true,
+      default: 1,
+      min: 1,
+      max: 4,
+    },
+
     contact: {
       type: String,
       required: true,

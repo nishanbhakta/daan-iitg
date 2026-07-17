@@ -1,11 +1,18 @@
 const CabShare = require("../models/CabShareModel");
 
 const createCabShare = async (cabShareData) => {
-  const cabShare = new CabShare(cabShareData);
-  return await cabShare.save();
-};
+  console.log("Incoming:", cabShareData);
 
+  const cabShare = new CabShare(cabShareData);
+
+  const saved = await cabShare.save();
+
+  console.log("Saved:", saved);
+
+  return saved;
+};
 const getAllCabShares = async () => {
+  // Delete rides 1 hour after departure
   await CabShare.deleteMany({
     travelDateTime: {
       $lt: new Date(Date.now() - 60 * 60 * 1000),

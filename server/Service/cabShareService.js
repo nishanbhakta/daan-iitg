@@ -1,19 +1,19 @@
-const repositorie = require("../repository/cabShareRepository");
+const repository = require("../repository/cabShareRepository");
 
 const createCabShare = async (cabShareData) => {
-  return await repositorie.createCabShare(cabShareData);
+  return await repository.createCabShare(cabShareData);
 };
 
 const getAllCabShares = async () => {
-  return await repositorie.getAllCabShares();
+  return await repository.getAllCabShares();
 };
 
 const getCabShareById = async (id) => {
-  return await repositorie.getCabShareById(id);
+  return await repository.getCabShareById(id);
 };
 
 const deleteCabShare = async (id) => {
-  return await repositorie.deleteCabShare(id);
+  return await repository.deleteCabShare(id);
 };
 
 module.exports = {
