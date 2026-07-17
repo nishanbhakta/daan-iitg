@@ -130,7 +130,7 @@ export default function App() {
 
         <CampusMap />
 
-        {/* <Gallery /> */}
+        <Gallery />
 
         <Contact />
       </main>
