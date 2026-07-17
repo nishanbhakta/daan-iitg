@@ -1,17 +1,23 @@
-import React from 'react';
-import { getYearOfStudy } from '../utils/helpers';
-import allSeniorsData from '../data/seniorsData';
-import InitialsAvatar from './InitialsAvatar';
+import React from "react";
+import { getYearOfStudy } from "../utils/helpers";
+import allSeniorsData from "../data/seniorsData";
+import InitialsAvatar from "./InitialsAvatar";
 
 const Seniors = ({ onShowAllSeniors }) => {
   const featuredSeniorNames = [
-     "Brijesh Singh Bharti", "Adarsh Kumar","Ayush Kumar Gupta","Vaibhav C D",
-      "Nishan Bhakta", "Kanak Kamini Maiti", 
-     "Ashutosh Kumar","Laxmidhar Mohapatra","Pratibha"
+    "Brijesh Singh Bharti",
+    "Adarsh Kumar",
+    "Ayush Kumar Gupta",
+    "Vaibhav C D",
+    "Nishan Bhakta",
+    "Kanak Kamini Maiti",
+    "Laxmidhar Mohapatra",
+    "Pratibha",
+    "Nitin Kumar Meena",
   ];
 
   const seniors = featuredSeniorNames
-    .map(name => allSeniorsData.find(s => s.name === name))
+    .map((name) => allSeniorsData.find((s) => s.name === name))
     .filter(Boolean);
 
   return (
@@ -36,12 +42,18 @@ const Seniors = ({ onShowAllSeniors }) => {
                 <InitialsAvatar name={senior.name} size="lg" />
               </div>
               <div className="min-w-0">
-                <h3 className="truncate text-base font-bold text-white">{senior.name}</h3>
-                <p className="truncate text-sm text-gray-400">{senior.branch}</p>
+                <h3 className="truncate text-base font-bold text-white">
+                  {senior.name}
+                </h3>
+                <p className="truncate text-sm text-gray-400">
+                  {senior.branch}
+                </p>
                 <span className="mt-1 inline-block rounded-full bg-cyan-400/10 px-2.5 py-0.5 text-xs font-medium text-cyan-300">
                   {getYearOfStudy(senior.admissionYear)}
                 </span>
-                <p className="truncate text-xs text-gray-500 mt-1">{senior.school}</p>
+                <p className="truncate text-xs text-gray-500 mt-1">
+                  {senior.school}
+                </p>
               </div>
             </div>
           ))}
@@ -53,8 +65,18 @@ const Seniors = ({ onShowAllSeniors }) => {
             className="group inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-7 py-3 text-sm font-bold text-cyan-300 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-400/20 hover:shadow-[0_0_30px_-6px_rgba(34,211,238,0.6)]"
           >
             More About Seniors
-            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+            <svg
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 12h14M13 6l6 6-6 6"
+              />
             </svg>
           </button>
         </div>

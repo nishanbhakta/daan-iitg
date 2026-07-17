@@ -12,6 +12,7 @@ import AllSeniorsPage from "./components/AllSeniorsPage";
 import ItemsToBring from "./components/ItemsToBring";
 import FreshersAlert from "./components/FreshersAlert";
 import NavigationGuide from "./components/NavigationGuide";
+import Gallery from "./components/Gallery";
 
 const SECTION_IDS = [
   "home",
@@ -128,6 +129,8 @@ export default function App() {
         <Seniors onShowAllSeniors={() => setPage("allSeniors")} />
 
         <CampusMap />
+
+        {/* <Gallery /> */}
 
         <Contact />
       </main>
