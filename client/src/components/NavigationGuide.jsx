@@ -91,38 +91,16 @@ const dayLabel = (dateStr) => {
   });
 };
 
-// Formats a 24hr "HH:MM" time string into 12hr format with AM/PM,
-// e.g. "14:05" -> "2:05 PM". Falls back to the raw value if it
-// doesn't look like a valid HH:MM string.
-const formatTime12hr = (timeStr) => {
-  if (!timeStr) return "";
-  const match = /^(\d{1,2}):(\d{2})/.exec(timeStr);
-  if (!match) return timeStr;
-
-  let hours = parseInt(match[1], 10);
-  const minutes = match[2];
-  if (Number.isNaN(hours)) return timeStr;
-
-  const period = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
-
-  return `${hours}:${minutes} ${period}`;
-};
-
 const planTimestamp = (plan) => {
-  if (!plan.travelDate) return Infinity;
-  const t = new Date(
-    `${plan.travelDate}T${plan.travelTime || "00:00"}`,
-  ).getTime();
+  if (!plan.travelDateTime) return Infinity;
+
+  const t = new Date(plan.travelDateTime).getTime();
+
   return Number.isNaN(t) ? Infinity : t;
 };
 
-// A plan counts as "over" once its travel date/time has passed.
 const isPast = (plan) => planTimestamp(plan) < Date.now();
 
-// Builds a wa.me deep link for a 10-digit Indian mobile number.
-// The raw number is never shown in the UI, only used to build this link.
 const whatsappLink = (contact) => {
   const digits = (contact || "").replace(/\D/g, "");
   if (digits.length !== 10) return null;
@@ -207,8 +185,7 @@ const NavigationHelp = () => {
         name: newPlan.name,
         from: newPlan.source,
         to: `${newPlan.hostel} Hostel`,
-        travelDate: newPlan.date,
-        travelTime: newPlan.time,
+        travelDateTime: `${newPlan.date}T${newPlan.time}:00`,
         contact: newPlan.contact,
       };
 
@@ -753,8 +730,11 @@ const NavigationHelp = () => {
                       </h4>
 
                       <span className="text-xs text-slate-400 shrink-0">
-                        {dayLabel(plan.travelDate)} •{" "}
-                        {formatTime12hr(plan.travelTime)}
+                        {dayLabel(plan.travelDateTime)} •{" "}
+                        {new Date(plan.travelDateTime).toLocaleTimeString([], {
+                          hour: "numeric",
+                          minute: "2-digit",
+                        })}
                       </span>
                     </div>
 

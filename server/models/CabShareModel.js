@@ -4,35 +4,30 @@ const CabShareSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: true,
       trim: true,
     },
 
     from: {
       type: String,
-      required: [true, "Starting location is required"],
+      required: true,
       trim: true,
     },
 
     to: {
       type: String,
-      required: [true, "Destination is required"],
+      required: true,
       trim: true,
     },
 
-    travelDate: {
+    travelDateTime: {
       type: Date,
-      required: [true, "Travel date is required"],
-    },
-
-    travelTime: {
-      type: String,
-      required: [true, "Travel time is required"],
+      required: true,
     },
 
     contact: {
       type: String,
-      required: [true, "Contact is required"],
+      required: true,
       trim: true,
     },
   },
