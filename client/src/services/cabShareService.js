@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://daan-iitg.onrender.com/api",
+  baseURL: process.env.REACT_APP_API_URL,
 });
 export const createCabShare = async (data) => {
   const response = await API.post("/cabshares", data);
