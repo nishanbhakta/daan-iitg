@@ -22,9 +22,13 @@ const AllSeniorsPage = ({ onBack }) => {
 
   const filteredData = useMemo(() => {
     return allSeniorsData.filter((student) => {
-      const searchMatch = student.name.toLowerCase().includes(search.toLowerCase());
-      const branchMatch = branchFilter === "All" || student.branch === branchFilter;
-      const schoolMatch = schoolFilter === "All" || student.school === schoolFilter;
+      const searchMatch = student.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const branchMatch =
+        branchFilter === "All" || student.branch === branchFilter;
+      const schoolMatch =
+        schoolFilter === "All" || student.school === schoolFilter;
       return searchMatch && branchMatch && schoolMatch;
     });
   }, [search, branchFilter, schoolFilter]);
@@ -32,7 +36,9 @@ const AllSeniorsPage = ({ onBack }) => {
   const seniorsByBatch = admissionYears
     .map((year) => ({
       year,
-      students: filteredData.filter((student) => student.admissionYear === year),
+      students: filteredData.filter(
+        (student) => student.admissionYear === year,
+      ),
     }))
     .filter((group) => group.students.length > 0);
 
@@ -43,7 +49,10 @@ const AllSeniorsPage = ({ onBack }) => {
           onClick={onBack}
           className="group inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-cyan-300 backdrop-blur-md transition-colors duration-300 hover:bg-white/10"
         >
-          <Icon path={ICONS.arrowLeft} className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" />
+          <Icon
+            path={ICONS.arrowLeft}
+            className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1"
+          />
           Back to Main Page
         </button>
 
@@ -52,7 +61,9 @@ const AllSeniorsPage = ({ onBack }) => {
             S
           </span>
           <div>
-            <h1 className="text-2xl font-extrabold text-white sm:text-3xl">Seniors Directory</h1>
+            <h1 className="text-2xl font-extrabold text-white sm:text-3xl">
+              Seniors Directory
+            </h1>
             <p className="text-sm text-gray-400">
               Feel free to contact any senior. We are always happy to help.
             </p>
@@ -62,7 +73,9 @@ const AllSeniorsPage = ({ onBack }) => {
         {/* Filters */}
         <div className="mt-8 grid grid-cols-1 gap-3 rounded-2xl border border-cyan-400/15 bg-white/5 p-4 backdrop-blur-md md:grid-cols-3 md:p-6">
           <div className="relative">
-            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">🔍</span>
+            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+              🔍
+            </span>
             <input
               type="text"
               placeholder="Search by Name"
@@ -115,15 +128,21 @@ const AllSeniorsPage = ({ onBack }) => {
                       <InitialsAvatar name={student.name} size="lg" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="truncate text-lg font-bold text-white">{student.name}</h3>
-                      <p className="truncate text-sm text-gray-400">{student.branch}</p>
+                      <h3 className="truncate text-lg font-bold text-white">
+                        {student.name}
+                      </h3>
+                      <p className="truncate text-sm text-gray-400">
+                        {student.branch}
+                      </p>
                       <span className="mt-1 inline-block rounded-full bg-cyan-400/10 px-2.5 py-0.5 text-xs font-medium text-cyan-300">
                         {getYearOfStudy(student.admissionYear)}
                       </span>
                     </div>
                   </div>
 
-                  <p className="mt-4 text-sm text-gray-500">🏫 {student.school}</p>
+                  <p className="mt-4 text-sm text-gray-500">
+                    🏫 {student.school}
+                  </p>
 
                   {/* Contact actions */}
                   {student.phone !== "N/A" ? (
@@ -133,7 +152,7 @@ const AllSeniorsPage = ({ onBack }) => {
                           href={`tel:${student.phone}`}
                           className="flex-1 rounded-xl border border-cyan-400/20 bg-white/5 py-2.5 text-center text-sm font-semibold text-gray-200 transition-colors duration-300 hover:bg-white/10 hover:text-white"
                         >
-                          📞 Call
+                          Call
                         </a>
                         <a
                           href={`https://wa.me/91${student.phone}`}
@@ -141,7 +160,7 @@ const AllSeniorsPage = ({ onBack }) => {
                           rel="noreferrer"
                           className="flex-1 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 py-2.5 text-center text-sm font-bold text-gray-900 shadow-lg shadow-cyan-500/25 transition-transform duration-300 hover:scale-[1.03]"
                         >
-                          💬 WhatsApp
+                          WhatsApp
                         </a>
                       </div>
                       <button
@@ -151,7 +170,7 @@ const AllSeniorsPage = ({ onBack }) => {
                         }}
                         className="mt-3 w-full rounded-xl border border-cyan-400/20 bg-white/5 py-2.5 text-sm font-semibold text-cyan-300 transition-colors duration-300 hover:bg-cyan-400/10"
                       >
-                        📋 Copy Number
+                        Copy Number
                       </button>
                     </>
                   ) : (
@@ -169,7 +188,9 @@ const AllSeniorsPage = ({ onBack }) => {
           <div className="mt-16 rounded-2xl border border-cyan-400/15 bg-white/5 p-10 text-center backdrop-blur-md">
             <div className="text-6xl mb-4">😔</div>
             <h2 className="text-2xl font-bold text-white">No Seniors Found</h2>
-            <p className="mt-3 text-gray-400">Try changing your search or filters.</p>
+            <p className="mt-3 text-gray-400">
+              Try changing your search or filters.
+            </p>
           </div>
         )}
       </div>

@@ -49,7 +49,9 @@ const Contact = () => {
                 {contact.name}
               </h3>
               <p className="text-center text-cyan-300 mt-1">{contact.role}</p>
-              <p className="text-center text-gray-400 text-sm mt-1">{contact.year}</p>
+              <p className="text-center text-gray-400 text-sm mt-1">
+                {contact.year}
+              </p>
 
               <div className="grid grid-cols-2 gap-4 mt-8 w-full">
                 <a
@@ -76,10 +78,10 @@ const Contact = () => {
             We're Here to Help!
           </h3>
           <p className="text-gray-300 leading-7">
-            Don't hesitate to reach out if you have any questions regarding
-            IIT Guwahati, admission formalities, hostel life, academics,
-            campus facilities, or student life. We are always happy to guide
-            and support incoming freshers.
+            Don't hesitate to reach out if you have any questions regarding IIT
+            Guwahati, admission formalities, hostel life, academics, campus
+            facilities, or student life. We are always happy to guide and
+            support incoming freshers.
           </p>
         </div>
       </div>
